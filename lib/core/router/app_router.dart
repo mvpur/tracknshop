@@ -1,11 +1,11 @@
 import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/presentation/screens/collection/collection_detail_screen.dart';
+import 'package:track_shop_app/presentation/screens/collection/new_collection_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/new_warehouse_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_screen.dart';
 import 'package:track_shop_app/presentation/widgets/bottom_navbar_scaffold.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_screen.dart';
 import 'package:track_shop_app/presentation/screens/collection/collection_screen.dart';
-
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/warehouse',
@@ -30,6 +30,11 @@ final GoRouter appRouter = GoRouter(
         final collectionId = state.pathParameters['collectionId'];
         return CollectionDetailScreen(collectionId: collectionId!);
       },
+    ),
+    GoRoute(
+      path: '/new-collection',
+      name: NewCollectionScreen.name,
+      builder: (context, state) => const NewCollectionScreen(),
     ),
     StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>

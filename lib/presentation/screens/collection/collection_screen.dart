@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/presentation/screens/collection/collection_detail_screen.dart';
 import 'package:track_shop_app/core/data/collection_datasource.dart';
 import 'package:track_shop_app/entities/collection.dart';
+import 'package:track_shop_app/presentation/screens/collection/new_collection_screen.dart';
 import 'package:track_shop_app/presentation/widgets/items/collection_item.dart';
 
 class CollectionScreen extends StatelessWidget {
@@ -17,10 +19,26 @@ class CollectionScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Collection'),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.go('/new-collection'),
+      floatingActionButton: SpeedDial(
+        icon: Icons.add,
         backgroundColor: Colors.blue,
-        child: const Icon(Icons.add),
+        overlayColor: Colors.black,
+        overlayOpacity: 0.4,
+        children: [
+          SpeedDialChild(
+            child: const Icon(Icons.collections),
+            label: 'New Collection',
+            onTap: () => context.goNamed(NewCollectionScreen.name),
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.category),
+            label: 'Add Category',
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.inventory),
+            label: 'Add Item',
+          ),
+        ],
       ),
       body: const _CollectionsView(),
     );
