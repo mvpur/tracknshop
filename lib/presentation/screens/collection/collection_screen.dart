@@ -22,13 +22,16 @@ class CollectionScreen extends StatelessWidget {
         title: const Text('Collection'),
       ),
       floatingActionButton: SpeedDial(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
         icon: Icons.add,
         backgroundColor: Colors.blue,
         overlayColor: Colors.black,
         overlayOpacity: 0.4,
         children: [
           SpeedDialChild(
-            child: const Icon(Icons.collections),
+            child: const Icon(Icons.list_alt),
             label: 'New Collection',
             onTap: () => context.goNamed(NewCollectionScreen.name),
           ),
@@ -38,7 +41,7 @@ class CollectionScreen extends StatelessWidget {
             onTap: () => context.goNamed(NewCategoryScreen.name),
           ),
           SpeedDialChild(
-            child: const Icon(Icons.inventory),
+            child: const Icon(Icons.dashboard_customize),
             label: 'Add Item',
             onTap: () => context.goNamed(NewElementScreen.name),
           ),
