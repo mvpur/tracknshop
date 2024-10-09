@@ -1,6 +1,9 @@
 import 'package:go_router/go_router.dart';
+import 'package:track_shop_app/presentation/screens/category/new_category_screen.dart';
 import 'package:track_shop_app/presentation/screens/collection/collection_detail_screen.dart';
 import 'package:track_shop_app/presentation/screens/collection/new_collection_screen.dart';
+import 'package:track_shop_app/presentation/screens/element/new_element_screen.dart';
+import 'package:track_shop_app/presentation/screens/settings/settings_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/new_warehouse_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_screen.dart';
 import 'package:track_shop_app/presentation/widgets/bottom_navbar_scaffold.dart';
@@ -32,6 +35,16 @@ final GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
+      path: '/new-category',
+      name: NewCategoryScreen.name,
+      builder: (context, state) => const NewCategoryScreen(),
+    ),
+    GoRoute(
+      path: '/new-element',
+      name: NewElementScreen.name,
+      builder: (context, state) => const NewElementScreen(),
+    ),
+    GoRoute(
       path: '/new-collection',
       name: NewCollectionScreen.name,
       builder: (context, state) => const NewCollectionScreen(),
@@ -54,7 +67,13 @@ final GoRouter appRouter = GoRouter(
               builder: (context, state) => CollectionScreen(),
             ),
           ]),
-          //StatefulShellBranch(routes: []),
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: '/settings',
+              name: SettingsScreen.name,
+              builder: (context, state) => const SettingsScreen(),
+            ),
+          ]),
           //StatefulShellBranch(routes: []),
         ])
   ],

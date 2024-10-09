@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
+import 'package:track_shop_app/presentation/screens/category/new_category_screen.dart';
 import 'package:track_shop_app/presentation/screens/collection/collection_detail_screen.dart';
 import 'package:track_shop_app/core/data/collection_datasource.dart';
 import 'package:track_shop_app/entities/collection.dart';
 import 'package:track_shop_app/presentation/screens/collection/new_collection_screen.dart';
+import 'package:track_shop_app/presentation/screens/element/new_element_screen.dart';
 import 'package:track_shop_app/presentation/widgets/items/collection_item.dart';
 
 class CollectionScreen extends StatelessWidget {
@@ -33,10 +35,12 @@ class CollectionScreen extends StatelessWidget {
           SpeedDialChild(
             child: const Icon(Icons.category),
             label: 'Add Category',
+            onTap: () => context.goNamed(NewCategoryScreen.name),
           ),
           SpeedDialChild(
             child: const Icon(Icons.inventory),
             label: 'Add Item',
+            onTap: () => context.goNamed(NewElementScreen.name),
           ),
         ],
       ),
