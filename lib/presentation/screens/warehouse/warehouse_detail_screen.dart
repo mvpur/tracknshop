@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/core/data/warehouse_datasource.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
-import 'package:track_shop_app/presentation/screens/element/new_element_screen.dart';
+import 'package:track_shop_app/presentation/widgets/dialogs/element/new_element_dialog.dart';
 
 class WarehouseDetailScreen extends StatelessWidget {
   static const String name = 'warehouse_detail_screen';
@@ -20,7 +19,9 @@ class WarehouseDetailScreen extends StatelessWidget {
         title: const Text('Warehouse Detail'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.goNamed(NewElementScreen.name),
+        onPressed: () {
+          showCreateElementDialog(context);
+        },
         child: const Icon(Icons.add),
       ),
       body: _WarehouseDetailView(warehouse: warehouse),

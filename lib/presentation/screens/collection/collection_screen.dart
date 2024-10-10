@@ -6,7 +6,7 @@ import 'package:track_shop_app/presentation/screens/collection/collection_detail
 import 'package:track_shop_app/core/data/collection_datasource.dart';
 import 'package:track_shop_app/entities/collection.dart';
 import 'package:track_shop_app/presentation/screens/collection/new_collection_screen.dart';
-import 'package:track_shop_app/presentation/screens/element/new_element_screen.dart';
+import 'package:track_shop_app/presentation/widgets/dialogs/element/new_element_dialog.dart';
 import 'package:track_shop_app/presentation/widgets/items/collection_item.dart';
 
 class CollectionScreen extends StatelessWidget {
@@ -55,7 +55,9 @@ class CollectionScreen extends StatelessWidget {
               SpeedDialChild(
                 child: const Icon(Icons.dashboard_customize),
                 label: 'Add Item',
-                onTap: () => context.goNamed(NewElementScreen.name),
+                onTap: () {
+                  showCreateElementDialog(context);
+                },
               ),
             ],
           ),
