@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:track_shop_app/presentation/screens/collection/collection_screen.dart';
 
 class NewCategoryScreen extends StatefulWidget {
   const NewCategoryScreen({super.key});
@@ -18,13 +20,13 @@ class _NewCategoryScreenState extends State<NewCategoryScreen> {
       appBar: AppBar(
         title: const Text('New Category'),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextField(
+            const TextField(
               decoration: InputDecoration(
                 labelText: 'Name of new Category',
                 hintText: 'Name',
@@ -32,7 +34,18 @@ class _NewCategoryScreenState extends State<NewCategoryScreen> {
                 prefixIcon: Icon(Icons.store),
               ),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton(
+                    onPressed: () => context.goNamed(CollectionScreen.name),
+                    child: const Text('Cancel')),
+                FilledButton(
+                    onPressed: () => context.goNamed(CollectionScreen.name),
+                    child: const Text('Confirm')),
+              ],
+            ),
           ],
         ),
       ),
