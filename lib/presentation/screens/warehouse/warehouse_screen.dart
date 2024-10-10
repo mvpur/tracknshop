@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/core/data/warehouse_datasource.dart';
+import 'package:track_shop_app/presentation/screens/warehouse/new_warehouse_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_screen.dart';
 import 'package:track_shop_app/presentation/widgets/items/warehouse_item.dart';
 
@@ -18,8 +19,7 @@ class WarehouseScreen extends StatelessWidget {
         title: const Text('Warehouse'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.go('/new-warehouse'),
-        backgroundColor: Colors.blue,
+        onPressed: () => context.goNamed(NewWarehouseScreen.name),
         child: const Icon(Icons.add),
       ),
       body: const _WarehousesView(),

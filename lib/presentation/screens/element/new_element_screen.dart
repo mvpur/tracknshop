@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:track_shop_app/presentation/screens/warehouse/warehouse_screen.dart';
 
 class NewElementScreen extends StatefulWidget {
   const NewElementScreen({super.key});
@@ -18,13 +20,13 @@ class _NewElementScreenState extends State<NewElementScreen> {
       appBar: AppBar(
         title: const Text('New Element'),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextField(
+            const TextField(
               decoration: InputDecoration(
                 labelText: 'Name of new Element',
                 hintText: 'Name',
@@ -32,7 +34,19 @@ class _NewElementScreenState extends State<NewElementScreen> {
                 prefixIcon: Icon(Icons.store),
               ),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                //debería en ambos casos volver de la pagina que vino
+                TextButton(
+                    onPressed: () => context.goNamed(WarehouseScreen.name),
+                    child: const Text('Cancel')),
+                FilledButton(
+                    onPressed: () => context.goNamed(WarehouseScreen.name),
+                    child: const Text('Confirm')),
+              ],
+            ),
           ],
         ),
       ),

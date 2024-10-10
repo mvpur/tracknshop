@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/core/data/warehouse_datasource.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
+import 'package:track_shop_app/presentation/screens/element/new_element_screen.dart';
 
 class WarehouseDetailScreen extends StatelessWidget {
-  static const String name = 'warehouse_detail_screen'; 
+  static const String name = 'warehouse_detail_screen';
   final String warehouseId;
 
   const WarehouseDetailScreen({super.key, required this.warehouseId});
@@ -16,6 +18,10 @@ class WarehouseDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Warehouse Detail'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.goNamed(NewElementScreen.name),
+        child: const Icon(Icons.add),
       ),
       body: _WarehouseDetailView(warehouse: warehouse),
     );

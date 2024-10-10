@@ -21,9 +21,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
       // directly passed as the body of the Scaffold.
       body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home), label: 'My Warehouse'),
