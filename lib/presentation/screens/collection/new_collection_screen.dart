@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:track_shop_app/presentation/screens/warehouse/warehouse_screen.dart';
+import 'package:track_shop_app/presentation/screens/collection/collection_screen.dart';
 
 class NewCollectionScreen extends StatefulWidget {
   const NewCollectionScreen({super.key});
@@ -39,10 +39,10 @@ class _NewCollectionScreenState extends State<NewCollectionScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
-                    onPressed: () => context.goNamed(WarehouseScreen.name),
+                    onPressed: () => context.goNamed(CollectionScreen.name),
                     child: const Text('Cancel')),
                 FilledButton(
-                    onPressed: () => context.goNamed(WarehouseScreen.name),
+                    onPressed: () => context.goNamed(CollectionScreen.name),
                     child: const Text('Confirm')),
               ],
             ),
