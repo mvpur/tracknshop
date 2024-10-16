@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/presentation/screens/category/new_category_screen.dart';
-import 'package:track_shop_app/presentation/screens/collection/collection_detail_screen.dart';
-import 'package:track_shop_app/core/data/collection_datasource.dart';
-import 'package:track_shop_app/entities/collection.dart';
-import 'package:track_shop_app/presentation/screens/collection/new_collection_screen.dart';
+import 'package:track_shop_app/presentation/screens/catalogue/catalogue_detail_screen.dart';
+import 'package:track_shop_app/core/data/catalogue_datasource.dart';
+import 'package:track_shop_app/entities/catalogue.dart';
+import 'package:track_shop_app/presentation/screens/catalogue/new_catalogue_screen.dart';
 import 'package:track_shop_app/presentation/widgets/dialogs/element/new_element_dialog.dart';
-import 'package:track_shop_app/presentation/widgets/items/collection_item.dart';
+import 'package:track_shop_app/presentation/widgets/items/catalogue_item.dart';
 
-class CollectionScreen extends StatelessWidget {
-  static const String name = 'collection_screen';
+class CatalogueScreen extends StatelessWidget {
+  static const String name = 'catalogue_screen';
   final isDialOpen = ValueNotifier(false);
-  final List<Collection> collections = collectionList;
+  final List<Catalogue> catalogues = catalogueList;
 
-  CollectionScreen({super.key});
+  CatalogueScreen({super.key});
 
   @override
   // ignore: deprecated_member_use
@@ -29,7 +29,7 @@ class CollectionScreen extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Collection'),
+            title: const Text('Catalogue'),
           ),
           floatingActionButton: SpeedDial(
             shape: RoundedRectangleBorder(
@@ -44,8 +44,8 @@ class CollectionScreen extends StatelessWidget {
             children: [
               SpeedDialChild(
                 child: const Icon(Icons.list_alt),
-                label: 'New Collection',
-                onTap: () => context.goNamed(NewCollectionScreen.name),
+                label: 'New Catalogue',
+                onTap: () => context.goNamed(NewCatalogueScreen.name),
               ),
               SpeedDialChild(
                 child: const Icon(Icons.category),
@@ -61,33 +61,33 @@ class CollectionScreen extends StatelessWidget {
               ),
             ],
           ),
-          body: const _CollectionsView(),
+          body: const _CataloguesView(),
         ),
       );
 }
 
-class _CollectionsView extends StatelessWidget {
-  const _CollectionsView();
+class _CataloguesView extends StatelessWidget {
+  const _CataloguesView();
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: collectionList.length,
+      itemCount: catalogueList.length,
       itemBuilder: (context, index) {
-        final collection = collectionList[index];
-        return CollectionItem(
-          collection: collection,
-          onTap: () => _goToCollectionDetails(context, collection),
+        final catalogue = catalogueList[index];
+        return CatalogueItem(
+          catalogue: catalogue,
+          onTap: () => _goToCatalogueDetails(context, catalogue),
         );
       },
     );
   }
 
-  _goToCollectionDetails(BuildContext context, Collection collection) {
+  _goToCatalogueDetails(BuildContext context, Catalogue catalogue) {
     context.pushNamed(
-      CollectionDetailScreen.name,
+      CatalogueDetailScreen.name,
       pathParameters: {
-        'collectionId': collection.id,
+        'catalogueId': catalogue.id,
       },
     );
   }

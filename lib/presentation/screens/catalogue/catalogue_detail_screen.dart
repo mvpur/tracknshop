@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
-import 'package:track_shop_app/core/data/collection_datasource.dart';
-import 'package:track_shop_app/entities/collection.dart';
+import 'package:track_shop_app/core/data/catalogue_datasource.dart';
+import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/presentation/screens/category/new_category_screen.dart';
 import 'package:track_shop_app/presentation/widgets/dialogs/element/new_element_dialog.dart';
 
-class CollectionDetailScreen extends StatelessWidget {
-  static const String name = 'collection_detail_screen'; // Nombre de la ruta
-  final String collectionId; // Parámetero de ID del ítem
+class CatalogueDetailScreen extends StatelessWidget {
+  static const String name = 'catalogue_detail_screen'; // Nombre de la ruta
+  final String catalogueId; // Parámetero de ID del ítem
   final isDialOpen = ValueNotifier(false);
 
-  CollectionDetailScreen({super.key, required this.collectionId});
+  CatalogueDetailScreen({super.key, required this.catalogueId});
 
   @override
   Widget build(BuildContext context) {
-    final collection = collectionList
-        .firstWhere((collection) => collection.id == collectionId);
+    final catalogue =
+        catalogueList.firstWhere((catalogue) => catalogue.id == catalogueId);
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
@@ -29,7 +29,7 @@ class CollectionDetailScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Collection'),
+          title: const Text('Catalogue'),
         ),
         floatingActionButton: SpeedDial(
           shape: RoundedRectangleBorder(
@@ -56,19 +56,19 @@ class CollectionDetailScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: _CollectionDetailView(
-            collection: collection), // Pasamos la colección
+        body:
+            _CatalogueDetailView(catalogue: catalogue), // Pasamos la colección
       ),
     );
   }
 }
 
-class _CollectionDetailView extends StatelessWidget {
-  const _CollectionDetailView({
-    required this.collection,
+class _CatalogueDetailView extends StatelessWidget {
+  const _CatalogueDetailView({
+    required this.catalogue,
   });
 
-  final Collection collection;
+  final Catalogue catalogue;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class _CollectionDetailView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
-            'Name: ${collection.name}',
+            'Name: ${catalogue.name}',
           ),
         ],
       ),

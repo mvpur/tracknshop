@@ -16,6 +16,7 @@ class WarehouseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        leading: warehouse.icon,
         title: Text(warehouse.name),
         onTap: () => onTap?.call(),
       ),

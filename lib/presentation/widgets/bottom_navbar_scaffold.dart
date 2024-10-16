@@ -25,7 +25,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
           BottomNavigationBarItem(
               icon: Icon(Icons.home), label: 'My Warehouse'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt), label: 'Collection List'),
+              icon: Icon(Icons.list_alt), label: 'Catalogue List'),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings), label: 'Settings'),
         ],

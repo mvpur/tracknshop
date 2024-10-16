@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:track_shop_app/presentation/screens/collection/collection_screen.dart';
+import 'package:track_shop_app/presentation/screens/catalogue/catalogue_screen.dart';
+
+//TODO: Convertir a Dialog
 
 class NewCategoryScreen extends StatefulWidget {
   const NewCategoryScreen({super.key});
@@ -39,10 +41,10 @@ class _NewCategoryScreenState extends State<NewCategoryScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
-                    onPressed: () => context.goNamed(CollectionScreen.name),
+                    onPressed: () => context.goNamed(CatalogueScreen.name),
                     child: const Text('Cancel')),
                 FilledButton(
-                    onPressed: () => context.goNamed(CollectionScreen.name),
+                    onPressed: () => context.goNamed(CatalogueScreen.name),
                     child: const Text('Confirm')),
               ],
             ),
