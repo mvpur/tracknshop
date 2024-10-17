@@ -24,6 +24,9 @@ class Reminder {
     SnapshotOptions? options, ){
       final data = snapshot.data();
 
-      return 
+      return Reminder(id: data?['id'], 
+      title: data?['title'],
+      description: data?['description'], 
+      dateTimeToRemind: data?['dateTimeToRemind']);
   }
 }
