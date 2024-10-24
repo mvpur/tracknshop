@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
 
 class WarehouseItem extends StatelessWidget {
@@ -14,10 +15,14 @@ class WarehouseItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String formattedDate =
+        DateFormat('dd/MM/yyyy').format(warehouse.date);
+
     return Card(
       child: ListTile(
-        leading: warehouse.icon,
-        title: Text(warehouse.name),
+        // leading: warehouse.icon,
+        title: Text(warehouse.name.toString()),
+        subtitle: Text('Date: $formattedDate'),
         onTap: () => onTap?.call(),
       ),
     );

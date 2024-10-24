@@ -22,7 +22,7 @@ class CatalogueItem extends StatelessWidget {
       child: ListTile(
         leading: catalogue.icon,
         title: Text(catalogue.name),
-        subtitle: Text('Fecha: $formattedDate'),
+        subtitle: Text('Date: $formattedDate'),
         onTap: () => onTap?.call(),
       ),
     );
