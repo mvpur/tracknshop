@@ -15,10 +15,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/warehouse-details/:warehouseId',
       name: WarehouseDetailScreen.name,
-      builder: (context, state) {
-        final warehouseId = state.pathParameters['warehouseId'];
-        return WarehouseDetailScreen(warehouseId: warehouseId!);
-      },
+      //   return WarehouseDetailScreen(warehouseId: warehouseId!);
+      builder: (context, state) => WarehouseDetailScreen(
+        warehouseId: state.pathParameters['warehouseId']!,
+      ),
     ),
     GoRoute(
       path: '/new-warehouse',

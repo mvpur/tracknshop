@@ -17,7 +17,7 @@ class WarehouseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final String formattedDate =
         DateFormat('dd/MM/yyyy').format(warehouse.date);
-
+    print(warehouse.id);
     return Card(
       child: ListTile(
         // leading: warehouse.icon,
