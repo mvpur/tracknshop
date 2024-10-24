@@ -81,6 +81,8 @@ class _WarehousesView extends StatelessWidget {
   }
 }
 */
+//import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
@@ -139,7 +141,7 @@ class _WarehousesView extends StatelessWidget {
       itemCount: warehouses.length,
       itemBuilder: (context, index) {
         final warehouse = warehouses[index];
-        print(warehouse.id);
+        String id =warehouse.id;
         return WarehouseItem(
           warehouse: warehouse,
           onTap: () => _goToWarehouseDetails(context, warehouse),

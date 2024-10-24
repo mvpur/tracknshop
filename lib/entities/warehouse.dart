@@ -43,7 +43,10 @@ class Warehouse {
     SnapshotOptions?
         options, // Este argumento es necesario para cumplir la firma esperada
   ) {
-    final data = doc.data()!;
+    final data = {
+      ...doc.data()!,
+      "id":doc.id
+    };
     return Warehouse.fromMap(data);
   }
 
