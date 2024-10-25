@@ -51,12 +51,11 @@ class _WarehouseDetailView extends StatelessWidget {
   }
 }
 */
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:track_shop_app/core/data/warehouse_datasource.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/presentation/widgets/dialogs/element/new_element_dialog.dart';
+import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
 
 class WarehouseDetailScreen extends ConsumerWidget {
   static const String name = 'warehouse_detail_screen';
@@ -67,10 +66,25 @@ class WarehouseDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Aquí puedes usar Riverpod para obtener el warehouse desde un provider
-    // Suponiendo que usas Riverpod, podrías acceder a un provider similar a esto:
-    final warehouse =
-        warehouseList.firstWhere((warehouse) => warehouse.id == warehouseId);
+    // Usamos ref.watch para escuchar cambios en la lista de almacenes
+    final warehouses = ref.watch(warehouseProvider);
+
+    // Buscamos el warehouse que coincide con el ID
+    final warehouse = warehouses.firstWhere(
+      (warehouse) => warehouse.id == warehouseId,
+      orElse: () => Warehouse(
+          id: warehouseId,
+          name: '',
+          icon: '',
+          date: DateTime.now()), // Cambia a un objeto por defecto
+    );
+
+    if (warehouse.name.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Warehouse Detail')),
+        body: const Center(child: Text('Warehouse not found')),
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -88,17 +102,22 @@ class WarehouseDetailScreen extends ConsumerWidget {
 }
 
 class _WarehouseDetailView extends StatelessWidget {
+  final Warehouse warehouse;
+
   const _WarehouseDetailView({
+    super.key,
     required this.warehouse,
   });
 
-  final Warehouse warehouse;
-
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController iconController = TextEditingController();
-    final TextEditingController dateController = TextEditingController();
+    // Creamos los controladores para los TextFields
+    final TextEditingController nameController =
+        TextEditingController(text: warehouse.name);
+    final TextEditingController iconController =
+        TextEditingController(text: warehouse.icon);
+    final TextEditingController dateController =
+        TextEditingController(text: warehouse.date.toString());
 
     return Center(
       child: Column(
@@ -107,7 +126,7 @@ class _WarehouseDetailView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              controller: nameController..text = warehouse.name,
+              controller: nameController,
               decoration: const InputDecoration(
                 hintText: 'Warehouse Name',
               ),
@@ -116,7 +135,7 @@ class _WarehouseDetailView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              controller: iconController..text = warehouse.icon,
+              controller: iconController,
               decoration: const InputDecoration(
                 hintText: 'Icon',
               ),
@@ -125,7 +144,7 @@ class _WarehouseDetailView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              controller: dateController..text = warehouse.date.toString(),
+              controller: dateController,
               decoration: const InputDecoration(
                 hintText: 'Date',
               ),
