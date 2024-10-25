@@ -20,7 +20,6 @@ class _CatalogueScreenState extends ConsumerState<CatalogueScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(catalogueProvider.notifier).getAllCatalogues();
   }
 
   @override

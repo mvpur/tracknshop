@@ -10,23 +10,37 @@ final catalogueProvider =
 class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
   final FirebaseFirestore db;
 
-  CatalogueNotifier(this.db) : super([]);
+  CatalogueNotifier(this.db) : super([]) {
+    _listenToCatalogues();
+  }
+
+  void _listenToCatalogues() {
+    db
+        .collection('catalogue')
+        .withConverter(
+          fromFirestore: Catalogue.fromFirestore,
+          toFirestore: (Catalogue catalogue, _) => catalogue.toFirestore(),
+        )
+        .snapshots()
+        .listen((snapshot) {
+      state = snapshot.docs.map((doc) => doc.data()).toList();
+    });
+  }
 
   Future<void> addCatalogue(Catalogue catalogue) async {
     final doc = db.collection('catalogue').doc();
     try {
       await doc.set(catalogue.toFirestore());
-      state = [...state, catalogue];
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> getAllCatalogues() async {
-    final docs = db.collection('catalogue').withConverter(
-        fromFirestore: Catalogue.fromFirestore,
-        toFirestore: (Catalogue catalogue, _) => catalogue.toFirestore());
-    final catalogues = await docs.get();
-    state = [...state, ...catalogues.docs.map((d) => d.data())];
+  Future<void> deleteCatalogue(String id) async {
+    try {
+      await db.collection('catalogue').doc(id).delete();
+    } catch (e) {
+      print(e);
+    }
   }
 }

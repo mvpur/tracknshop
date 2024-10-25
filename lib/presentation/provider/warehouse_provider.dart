@@ -10,23 +10,37 @@ final warehouseProvider =
 class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
   final FirebaseFirestore db;
 
-  WarehouseNotifier(this.db) : super([]);
+  WarehouseNotifier(this.db) : super([]) {
+    _listenToWarehouses();
+  }
+
+  void _listenToWarehouses() {
+    db
+        .collection('warehouse')
+        .withConverter(
+          fromFirestore: Warehouse.fromFirestore,
+          toFirestore: (Warehouse warehouse, _) => warehouse.toFirestore(),
+        )
+        .snapshots()
+        .listen((snapshot) {
+      state = snapshot.docs.map((doc) => doc.data()).toList();
+    });
+  }
 
   Future<void> addWarehouse(Warehouse warehouse) async {
     final doc = db.collection('warehouse').doc();
     try {
       await doc.set(warehouse.toFirestore());
-      state = [...state, warehouse];
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> getAllWarehouses() async {
-    final docs = db.collection('warehouse').withConverter(
-        fromFirestore: Warehouse.fromFirestore,
-        toFirestore: (Warehouse warehouse, _) => warehouse.toFirestore());
-    final warehouses = await docs.get();
-    state = [...state, ...warehouses.docs.map((d) => d.data())];
+  Future<void> deleteWarehouse(String id) async {
+    try {
+      await db.collection('warehouse').doc(id).delete();
+    } catch (e) {
+      print(e);
+    }
   }
 }

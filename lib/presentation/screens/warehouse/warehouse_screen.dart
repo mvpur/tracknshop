@@ -20,7 +20,6 @@ class _WarehouseScreenState extends ConsumerState<WarehouseScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(warehouseProvider.notifier).getAllWarehouses();
   }
 
   @override
@@ -63,7 +62,7 @@ class _WarehousesView extends StatelessWidget {
     );
   }
 
-  _goToWarehouseDetails(BuildContext context, Warehouse warehouse) {
+  void _goToWarehouseDetails(BuildContext context, Warehouse warehouse) {
     context.pushNamed(
       WarehouseDetailScreen.name,
       pathParameters: {
