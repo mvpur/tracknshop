@@ -28,6 +28,5 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
         toFirestore: (Catalogue catalogue, _) => catalogue.toFirestore());
     final catalogues = await docs.get();
     state = [...state, ...catalogues.docs.map((d) => d.data())];
-    print('Number of catalogues retrieved: ${catalogues.docs.length}');
   }
 }
