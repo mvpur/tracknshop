@@ -13,17 +13,12 @@ class WarehouseDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Usamos ref.watch para escuchar cambios en la lista de almacenes
     final warehouses = ref.watch(warehouseProvider);
 
-    // Buscamos el warehouse que coincide con el ID
     final warehouse = warehouses.firstWhere(
       (warehouse) => warehouse.id == warehouseId,
-      orElse: () => Warehouse(
-          id: warehouseId,
-          name: '',
-          icon: '',
-          date: DateTime.now()), // Cambia a un objeto por defecto
+      orElse: () =>
+          Warehouse(id: warehouseId, name: '', icon: '', date: DateTime.now()),
     );
 
     if (warehouse.name.isEmpty) {
@@ -57,7 +52,6 @@ class _WarehouseDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Creamos los controladores para los TextFields
     final TextEditingController nameController =
         TextEditingController(text: warehouse.name);
     final TextEditingController iconController =

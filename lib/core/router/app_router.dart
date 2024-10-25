@@ -15,7 +15,6 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/warehouse-details/:warehouseId',
       name: WarehouseDetailScreen.name,
-      //   return WarehouseDetailScreen(warehouseId: warehouseId!);
       builder: (context, state) => WarehouseDetailScreen(
         warehouseId: state.pathParameters['warehouseId']!,
       ),
@@ -68,7 +67,6 @@ final GoRouter appRouter = GoRouter(
               builder: (context, state) => const SettingsScreen(),
             ),
           ]),
-          //StatefulShellBranch(routes: []),
         ])
   ],
 );

@@ -16,17 +16,15 @@ class CatalogueDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Usamos ref.watch para escuchar cambios en la lista de catálogos
     final catalogues = ref.watch(catalogueProvider);
 
-    // Buscamos el catálogo que coincide con el ID
     final catalogue = catalogues.firstWhere(
       (catalogue) => catalogue.id == catalogueId,
       orElse: () => Catalogue(
         id: catalogueId,
         name: '',
         icon: '',
-        date: DateTime.now(), // Cambia a un objeto por defecto
+        date: DateTime.now(),
       ),
     );
 
@@ -85,7 +83,6 @@ class _CatalogueDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Creamos los controladores para los TextFields
     final TextEditingController nameController =
         TextEditingController(text: catalogue.name);
     final TextEditingController iconController =

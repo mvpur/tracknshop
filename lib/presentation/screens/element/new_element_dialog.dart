@@ -11,7 +11,7 @@ Future<void> showCreateElementDialog(BuildContext context) {
       return AlertDialog(
         title: const Text('Create New Element'),
         content: Form(
-          key: formKey, // Asocia el form con la clave
+          key: formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -58,8 +58,7 @@ Future<void> showCreateElementDialog(BuildContext context) {
                 final String name = nameController.text;
                 final String category = categoryController.text;
 
-                // Aquí puedes manejar el resultado (ej. guardar el elemento)
-                Navigator.of(context).pop(); // Cerrar el diálogo
+                Navigator.of(context).pop();
               }
             },
             child: const Text('Create'),

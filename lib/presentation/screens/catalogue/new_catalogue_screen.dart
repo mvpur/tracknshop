@@ -19,8 +19,7 @@ class _NewCatalogueScreenState extends ConsumerState<NewCatalogueScreen> {
 
   @override
   void dispose() {
-    _nameController
-        .dispose(); // Limpiar el controlador cuando se destruya la pantalla
+    _nameController.dispose();
     super.dispose();
   }
 
@@ -36,7 +35,6 @@ class _NewCatalogueScreenState extends ConsumerState<NewCatalogueScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Campo de texto para el nombre del nuevo almacén
             TextField(
               controller: _nameController,
               decoration: const InputDecoration(

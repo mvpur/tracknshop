@@ -25,7 +25,7 @@ class CatalogueItem extends ConsumerWidget {
         subtitle: Text('Date: $formattedDate'),
         onTap: () => onTap?.call(),
         trailing: IconButton(
-          icon: const Icon(Icons.delete), // Ícono de eliminar
+          icon: const Icon(Icons.delete), 
           onPressed: () {
             showDialog(
               context: context,
