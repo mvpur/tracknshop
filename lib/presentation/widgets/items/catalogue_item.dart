@@ -20,10 +20,14 @@ class CatalogueItem extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        leading: catalogue.icon,
-        title: Text(catalogue.name),
+        //   leading: catalogue.icon,
+        title: Text(catalogue.name.toString()),
         subtitle: Text('Date: $formattedDate'),
         onTap: () => onTap?.call(),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete), // Ícono de eliminar
+          onPressed: () {},
+        ),
       ),
     );
   }

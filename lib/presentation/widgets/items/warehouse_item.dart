@@ -17,13 +17,16 @@ class WarehouseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final String formattedDate =
         DateFormat('dd/MM/yyyy').format(warehouse.date);
-    print(warehouse.id);
     return Card(
       child: ListTile(
         // leading: warehouse.icon,
         title: Text(warehouse.name.toString()),
         subtitle: Text('Date: $formattedDate'),
         onTap: () => onTap?.call(),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete), // Ícono de eliminar
+          onPressed: () {},
+        ),
       ),
     );
   }

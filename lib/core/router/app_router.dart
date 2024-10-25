@@ -51,14 +51,14 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: '/warehouse',
               name: WarehouseScreen.name,
-              builder: (context, state) => WarehouseScreen(),
+              builder: (context, state) => const WarehouseScreen(),
             ),
           ]),
           StatefulShellBranch(routes: [
             GoRoute(
               path: '/catalogue',
               name: CatalogueScreen.name,
-              builder: (context, state) => CatalogueScreen(),
+              builder: (context, state) => const CatalogueScreen(),
             ),
           ]),
           StatefulShellBranch(routes: [

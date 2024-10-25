@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class Catalogue {
   final String id;
-  final Icon icon;
+  String icon;
   final String name;
   final DateTime date;
 
@@ -13,21 +12,37 @@ class Catalogue {
       required this.name,
       required this.date});
 
-  Map<String, dynamic> toFirestore(){
+  factory Catalogue.fromMap(Map<String, dynamic> data) {
+    return Catalogue(
+      id: data['id'] ?? '',
+      icon: data['icon'] ?? '',
+      name: data['name'] ?? 'Sin Nombre',
+      date: (data['date'] != null && data['date'] is Timestamp)
+          ? (data['date'] as Timestamp).toDate()
+          : DateTime.now(),
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
     return {
       'id': id,
-      'name': name,
       'icon': icon,
-      'date': date
+      'name': name,
+      'date': Timestamp.fromDate(date),
     };
   }
-  static Catalogue fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot,
-    SnapshotOptions? options, ){
-      final data = snapshot.data();
 
-      return Catalogue(id: data?['id'], 
-      name: data?['name'],
-      icon: data?['icon'], 
-      date: data?['date']);
+  static Catalogue fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> doc,
+    SnapshotOptions? options,
+  ) {
+    final data = {...doc.data()!, "id": doc.id};
+    return Catalogue.fromMap(data);
+  }
+
+  Map<String, dynamic> toFirestoreWithOptions(
+    SetOptions? options,
+  ) {
+    return toFirestore();
   }
 }
