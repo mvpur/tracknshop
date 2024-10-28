@@ -17,6 +17,7 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
   void _listenToCatalogues() {
     db
         .collection('catalogue')
+        .orderBy('date', descending: true) // Ordenar por el campo 'date'
         .withConverter(
           fromFirestore: Catalogue.fromFirestore,
           toFirestore: (Catalogue catalogue, _) => catalogue.toFirestore(),

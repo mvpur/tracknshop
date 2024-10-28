@@ -17,6 +17,7 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
   void _listenToWarehouses() {
     db
         .collection('warehouse')
+        .orderBy('date', descending: true) // Ordenar por el campo timestamp
         .withConverter(
           fromFirestore: Warehouse.fromFirestore,
           toFirestore: (Warehouse warehouse, _) => warehouse.toFirestore(),
