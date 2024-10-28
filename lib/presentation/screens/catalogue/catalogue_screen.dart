@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:track_shop_app/core/data/colors.datasourse.dart';
 import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/new_catalogue_screen.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_detail_screen.dart';
@@ -44,6 +45,13 @@ class _CataloguesView extends StatelessWidget {
 
   const _CataloguesView({required this.catalogues});
 
+  Color getColor(int index, BuildContext context) {
+    // Define el color principal (puedes personalizarlo)
+    final List<Color> colors = colorsList;
+    return colors[index % colors.length];
+  }
+
+  @override
   @override
   Widget build(BuildContext context) {
     if (catalogues.isEmpty) {
@@ -54,15 +62,17 @@ class _CataloguesView extends StatelessWidget {
       itemCount: catalogues.length,
       itemBuilder: (context, index) {
         final catalogue = catalogues[index];
+        final itemColor = getColor(index, context); // Ahora pasamos el contexto
         return CatalogueItem(
           catalogue: catalogue,
           onTap: () => _goToCatalogueDetails(context, catalogue),
+          backgroundColor: itemColor, // Pasa el color al CatalogueItem
         );
       },
     );
   }
 
-  _goToCatalogueDetails(BuildContext context, Catalogue catalogue) {
+  void _goToCatalogueDetails(BuildContext context, Catalogue catalogue) {
     context.pushNamed(
       CatalogueDetailScreen.name,
       pathParameters: {

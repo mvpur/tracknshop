@@ -9,10 +9,12 @@ class WarehouseItem extends ConsumerWidget {
     super.key,
     required this.warehouse,
     this.onTap,
+    required this.backgroundColor, // Nuevo parámetro
   });
 
   final Warehouse warehouse;
   final Function? onTap;
+  final Color backgroundColor; // Nuevo atributo
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,6 +22,7 @@ class WarehouseItem extends ConsumerWidget {
         DateFormat('dd/MM/yyyy').format(warehouse.date);
 
     return Card(
+      color: backgroundColor, // Usa el color de fondo aquí
       child: ListTile(
         title: Text(warehouse.name.toString()),
         subtitle: Text('Date: $formattedDate'),

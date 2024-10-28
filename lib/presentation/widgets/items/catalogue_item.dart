@@ -9,10 +9,12 @@ class CatalogueItem extends ConsumerWidget {
     super.key,
     required this.catalogue,
     this.onTap,
+    required this.backgroundColor, // Nuevo parámetro
   });
 
   final Catalogue catalogue;
   final Function? onTap;
+  final Color backgroundColor; // Nuevo atributo
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,12 +22,13 @@ class CatalogueItem extends ConsumerWidget {
         DateFormat('dd/MM/yyyy').format(catalogue.date);
 
     return Card(
+      color: backgroundColor, // Usa el color de fondo aquí
       child: ListTile(
         title: Text(catalogue.name.toString()),
         subtitle: Text('Date: $formattedDate'),
         onTap: () => onTap?.call(),
         trailing: IconButton(
-          icon: const Icon(Icons.delete), 
+          icon: const Icon(Icons.delete),
           onPressed: () {
             showDialog(
               context: context,
@@ -33,7 +36,7 @@ class CatalogueItem extends ConsumerWidget {
                 return AlertDialog(
                   title: const Text('Delete'),
                   content: const Text(
-                      'Are you sure yo want to delete this catalogue?'),
+                      'Are you sure you want to delete this catalogue?'),
                   actions: [
                     TextButton(
                       onPressed: () {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:track_shop_app/core/data/colors.datasourse.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/new_warehouse_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_screen.dart';
@@ -44,6 +45,13 @@ class _WarehousesView extends StatelessWidget {
 
   const _WarehousesView({required this.warehouses});
 
+  Color getColor(int index, BuildContext context) {
+    // Define el color principal (puedes personalizarlo)
+    final List<Color> colors = colorsList;
+    return colors[index % colors.length];
+  }
+
+  @override
   @override
   Widget build(BuildContext context) {
     if (warehouses.isEmpty) {
@@ -54,9 +62,11 @@ class _WarehousesView extends StatelessWidget {
       itemCount: warehouses.length,
       itemBuilder: (context, index) {
         final warehouse = warehouses[index];
+        final itemColor = getColor(index, context); // Ahora pasamos el contexto
         return WarehouseItem(
           warehouse: warehouse,
           onTap: () => _goToWarehouseDetails(context, warehouse),
+          backgroundColor: itemColor, // Pasa el color al WarehouseItem
         );
       },
     );
