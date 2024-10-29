@@ -9,12 +9,17 @@ class WarehouseItem extends ConsumerWidget {
     super.key,
     required this.warehouse,
     this.onTap,
-    required this.backgroundColor, // Nuevo parámetro
+    required this.backgroundColor,
   });
 
   final Warehouse warehouse;
   final Function? onTap;
-  final Color backgroundColor; // Nuevo atributo
+  final Color backgroundColor;
+
+  // Método para obtener el icono usando el código de icono
+  IconData getIcon(int iconCode) {
+    return IconData(iconCode, fontFamily: 'MaterialIcons');
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,8 +27,9 @@ class WarehouseItem extends ConsumerWidget {
         DateFormat('dd/MM/yyyy').format(warehouse.date);
 
     return Card(
-      color: backgroundColor, // Usa el color de fondo aquí
+      color: backgroundColor,
       child: ListTile(
+        leading: Icon(getIcon(warehouse.icon)), // Usa el método getIcon
         title: Text(warehouse.name.toString()),
         subtitle: Text('Date: $formattedDate'),
         onTap: () => onTap?.call(),

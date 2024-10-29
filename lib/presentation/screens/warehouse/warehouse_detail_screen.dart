@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
-import 'package:track_shop_app/presentation/screens/element/new_element_dialog.dart';
-import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
+import 'package:track_shop_app/presentation/provider/warehouse_provider.dart'; // Asegúrate de tener este proveedor
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class WarehouseDetailScreen extends ConsumerWidget {
   static const String name = 'warehouse_detail_screen';
@@ -17,8 +17,12 @@ class WarehouseDetailScreen extends ConsumerWidget {
 
     final warehouse = warehouses.firstWhere(
       (warehouse) => warehouse.id == warehouseId,
-      orElse: () =>
-          Warehouse(id: warehouseId, name: '', icon: '', date: DateTime.now()),
+      orElse: () => Warehouse(
+        id: warehouseId,
+        name: '',
+        icon: 0,
+        date: DateTime.now(),
+      ),
     );
 
     if (warehouse.name.isEmpty) {
@@ -30,15 +34,39 @@ class WarehouseDetailScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Warehouse Detail'),
+        title: Row(
+          children: [
+            warehouse.getIcon(), // Muestra el ícono del almacén
+            const SizedBox(width: 8),
+            Text(warehouse.name), // Muestra el nombre del almacén
+          ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showCreateElementDialog(context);
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: _buildSpeedDial(context),
       body: _WarehouseDetailView(warehouse: warehouse),
+    );
+  }
+
+  Widget _buildSpeedDial(BuildContext context) {
+    return SpeedDial(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      icon: Icons.add,
+      overlayColor: Colors.black,
+      overlayOpacity: 0.4,
+      spacing: 12,
+      spaceBetweenChildren: 12,
+      children: [
+        SpeedDialChild(
+          child: const Icon(Icons.add),
+          label: 'Add Item',
+          onTap: () {
+            // Lógica para añadir un nuevo ítem
+          },
+        ),
+        // Aquí puedes agregar más acciones al Speed Dial
+      ],
     );
   }
 }
@@ -52,46 +80,15 @@ class _WarehouseDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameController =
-        TextEditingController(text: warehouse.name);
-    final TextEditingController iconController =
-        TextEditingController(text: warehouse.icon);
-    final TextEditingController dateController =
-        TextEditingController(text: warehouse.date.toString());
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                hintText: 'Warehouse Name',
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: iconController,
-              decoration: const InputDecoration(
-                hintText: 'Icon',
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: dateController,
-              decoration: const InputDecoration(
-                hintText: 'Date',
-              ),
-            ),
-          ),
-        ],
-      ),
+    return ListView.builder(
+      itemCount: warehouse.items?.length ?? 0,
+      itemBuilder: (context, index) {
+        final item = warehouse.items![index];
+        return ListTile(
+          title: Text(item.name),
+          subtitle: Text(item.categoryId),
+        );
+      },
     );
   }
 }

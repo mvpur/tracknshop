@@ -7,7 +7,6 @@ final List<IconData> iconList = [
   Icons.home_work,
   Icons.local_shipping,
   Icons.construction,
-  Icons.factory,
   Icons.storage,
   Icons.kitchen,
   Icons.bathroom,
@@ -15,9 +14,11 @@ final List<IconData> iconList = [
   Icons.bed,
   Icons.star,
   Icons.phone_android,
-  Icons.food_bank,
+  Icons.fastfood,
   Icons.yard,
   Icons.shopping_cart,
+  Icons.flight,
+  Icons.pets,
+  Icons.pedal_bike,
+  Icons.beach_access,
 ];
-
-

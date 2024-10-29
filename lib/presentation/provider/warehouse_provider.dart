@@ -17,19 +17,30 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
   void _listenToWarehouses() {
     db
         .collection('warehouse')
-        .orderBy('date', descending: true) // Ordenar por el campo timestamp
+        .orderBy('date', descending: true)
         .withConverter(
           fromFirestore: Warehouse.fromFirestore,
           toFirestore: (Warehouse warehouse, _) => warehouse.toFirestore(),
         )
         .snapshots()
-        .listen((snapshot) {
-      state = snapshot.docs.map((doc) => doc.data()).toList();
+        .listen((snapshot) async {
+      final warehouses = snapshot.docs.map((doc) => doc.data()).toList();
+
+      // Cargar items para cada warehouse
+      for (var warehouse in warehouses) {
+        await warehouse.loadItems();
+        print("Loaded items for warehouse: ${warehouse.name}");
+// Cargar items de Firestore
+      }
+
+      state = warehouses; // Actualiza el estado
     });
   }
 
   Future<void> addWarehouse(Warehouse warehouse) async {
-    final doc = db.collection('warehouse').doc();
+    final doc = db
+        .collection('warehouse')
+        .doc(); // Asegúrate de que el nombre de la colección sea 'warehouse'
     try {
       await doc.set(warehouse.toFirestore());
     } catch (e) {
@@ -39,7 +50,10 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
 
   Future<void> deleteWarehouse(String id) async {
     try {
-      await db.collection('warehouse').doc(id).delete();
+      await db
+          .collection('warehouse')
+          .doc(id)
+          .delete(); // Asegúrate de que el nombre de la colección sea 'warehouse'
     } catch (e) {
       print(e);
     }

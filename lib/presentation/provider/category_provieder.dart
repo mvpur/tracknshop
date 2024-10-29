@@ -11,12 +11,12 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
   final FirebaseFirestore db;
 
   CategoryNotifier(this.db) : super([]) {
-    _listenToCategorys();
+    _listenToCategories();
   }
 
-  void _listenToCategorys() {
+  void _listenToCategories() {
     db
-        .collection('category')
+        .collection('categories') // Cambiado de 'category' a 'categories'
         .orderBy('date', descending: true) // Ordenar por el campo 'date'
         .withConverter(
           fromFirestore: Category.fromFirestore,
@@ -29,7 +29,9 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
   }
 
   Future<void> addCategory(Category category) async {
-    final doc = db.collection('category').doc();
+    final doc = db
+        .collection('categories')
+        .doc(); // Cambiado de 'category' a 'categories'
     try {
       await doc.set(category.toFirestore());
     } catch (e) {
@@ -39,7 +41,10 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
 
   Future<void> deleteCategory(String id) async {
     try {
-      await db.collection('category').doc(id).delete();
+      await db
+          .collection('categories')
+          .doc(id)
+          .delete(); // Cambiado de 'category' a 'categories'
     } catch (e) {
       print(e);
     }

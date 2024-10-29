@@ -4,6 +4,7 @@ import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_screen.dart';
+import 'package:track_shop_app/core/data/icons_datasource.dart';
 
 class NewWarehouseScreen extends ConsumerStatefulWidget {
   const NewWarehouseScreen({super.key});
@@ -32,7 +33,6 @@ class _NewWarehouseScreenState extends ConsumerState<NewWarehouseScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
@@ -45,6 +45,44 @@ class _NewWarehouseScreenState extends ConsumerState<NewWarehouseScreen> {
               ),
             ),
             const SizedBox(height: 20.0),
+            const Text(
+              'Select an icon:',
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10.0),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  mainAxisSpacing: 10.0,
+                  crossAxisSpacing: 10.0,
+                ),
+                itemCount: iconList.length,
+                itemBuilder: (context, index) {
+                  final icon = iconList[index];
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedIcon = icon;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: selectedIcon == icon
+                            ? Colors.blueAccent.withOpacity(0.2)
+                            : Colors.transparent,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        icon,
+                        color: selectedIcon == icon ? Colors.blue : Colors.grey,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 20.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -54,21 +92,21 @@ class _NewWarehouseScreenState extends ConsumerState<NewWarehouseScreen> {
                 ),
                 FilledButton(
                   onPressed: () async {
-                    if (_nameController.text.isEmpty) {
+                    if (_nameController.text.isEmpty || selectedIcon == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content:
-                              Text('Please enter a name for the warehouse'),
+                              Text('Please enter a name and select an icon'),
                         ),
                       );
                       return;
                     }
 
                     final newWarehouse = Warehouse(
-                      id: '',
                       name: _nameController.text.trim(),
                       date: DateTime.now(),
-                      icon: '',
+                      icon: selectedIcon!.codePoint,
+                      id: '', // Guarda el código del icono
                     );
 
                     await ref

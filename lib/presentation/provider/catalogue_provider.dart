@@ -16,7 +16,7 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
 
   void _listenToCatalogues() {
     db
-        .collection('catalogue')
+        .collection('catalogues') // Cambiado de 'catalogue' a 'catalogues'
         .orderBy('date', descending: true) // Ordenar por el campo 'date'
         .withConverter(
           fromFirestore: Catalogue.fromFirestore,
@@ -29,7 +29,9 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
   }
 
   Future<void> addCatalogue(Catalogue catalogue) async {
-    final doc = db.collection('catalogue').doc();
+    final doc = db
+        .collection('catalogues')
+        .doc(); // Cambiado de 'catalogue' a 'catalogues'
     try {
       await doc.set(catalogue.toFirestore());
     } catch (e) {
@@ -39,7 +41,10 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
 
   Future<void> deleteCatalogue(String id) async {
     try {
-      await db.collection('catalogue').doc(id).delete();
+      await db
+          .collection('catalogues')
+          .doc(id)
+          .delete(); // Cambiado de 'catalogue' a 'catalogues'
     } catch (e) {
       print(e);
     }

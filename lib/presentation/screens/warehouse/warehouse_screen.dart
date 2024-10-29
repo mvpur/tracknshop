@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:track_shop_app/core/data/colors.datasourse.dart';
+import 'package:track_shop_app/core/data/colors_datasourse.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/new_warehouse_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_screen.dart';
@@ -18,11 +18,6 @@ class WarehouseScreen extends ConsumerStatefulWidget {
 }
 
 class _WarehouseScreenState extends ConsumerState<WarehouseScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     List<Warehouse> warehouses = ref.watch(warehouseProvider);
@@ -52,7 +47,6 @@ class _WarehousesView extends StatelessWidget {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     if (warehouses.isEmpty) {
       return const Center(child: CircularProgressIndicator());
@@ -62,7 +56,7 @@ class _WarehousesView extends StatelessWidget {
       itemCount: warehouses.length,
       itemBuilder: (context, index) {
         final warehouse = warehouses[index];
-        final itemColor = getColor(index, context); // Ahora pasamos el contexto
+        final itemColor = getColor(index, context);
         return WarehouseItem(
           warehouse: warehouse,
           onTap: () => _goToWarehouseDetails(context, warehouse),
