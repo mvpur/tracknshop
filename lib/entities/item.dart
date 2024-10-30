@@ -6,7 +6,7 @@ class Item {
   final bool isCompleted;
   final String categoryId;
   final String catalogueId;
-  final String warehouseId; // Agregado
+  final String warehouseId; 
 
   Item({
     required this.id,
@@ -14,7 +14,7 @@ class Item {
     this.isCompleted = false,
     required this.categoryId,
     required this.catalogueId,
-    required this.warehouseId, // Agregado
+    required this.warehouseId,
   });
 
   factory Item.fromFirestore(
@@ -31,7 +31,7 @@ class Item {
       name: data['name'] ?? 'Sin Nombre',
       categoryId: data['category_id'] ?? 'Sin category',
       catalogueId: data['catalogue_id'] ?? 'Sin catalogue',
-      warehouseId: data['warehouse_id'] ?? 'Sin warehouse', // Agregado
+      warehouseId: data['warehouse_id'] ?? 'Sin warehouse', 
     );
   }
 
@@ -41,7 +41,7 @@ class Item {
       'isCompleted': isCompleted,
       'category_id': categoryId,
       'catalogue_id': catalogueId,
-      'warehouse_id': warehouseId, // Agregado
+      'warehouse_id': warehouseId,
     };
   }
 }

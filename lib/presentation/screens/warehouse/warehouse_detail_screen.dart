@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
-import 'package:track_shop_app/presentation/provider/warehouse_provider.dart'; // Asegúrate de tener este proveedor
+import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class WarehouseDetailScreen extends ConsumerWidget {
@@ -36,9 +36,9 @@ class WarehouseDetailScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            warehouse.getIcon(), // Muestra el ícono del almacén
+            warehouse.getIcon(),
             const SizedBox(width: 8),
-            Text(warehouse.name), // Muestra el nombre del almacén
+            Text(warehouse.name),
           ],
         ),
       ),
@@ -49,6 +49,7 @@ class WarehouseDetailScreen extends ConsumerWidget {
 
   Widget _buildSpeedDial(BuildContext context) {
     return SpeedDial(
+      heroTag: 'warehouseDetail',
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -62,10 +63,9 @@ class WarehouseDetailScreen extends ConsumerWidget {
           child: const Icon(Icons.add),
           label: 'Add Item',
           onTap: () {
-            // Lógica para añadir un nuevo ítem
+            // TODO: Lógica para añadir un nuevo ítem
           },
         ),
-        // Aquí puedes agregar más acciones al Speed Dial
       ],
     );
   }

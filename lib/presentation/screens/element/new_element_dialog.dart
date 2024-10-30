@@ -57,7 +57,7 @@ Future<void> showCreateElementDialog(BuildContext context) {
               if (formKey.currentState!.validate()) {
                 final String name = nameController.text;
                 final String category = categoryController.text;
-
+  
                 Navigator.of(context).pop();
               }
             },

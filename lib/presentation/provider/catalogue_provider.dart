@@ -13,25 +13,28 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
   CatalogueNotifier(this.db) : super([]) {
     _listenToCatalogues();
   }
-
   void _listenToCatalogues() {
     db
-        .collection('catalogues') // Cambiado de 'catalogue' a 'catalogues'
-        .orderBy('date', descending: true) // Ordenar por el campo 'date'
+        .collection('catalogue')
+        .orderBy('date', descending: true)
         .withConverter(
           fromFirestore: Catalogue.fromFirestore,
           toFirestore: (Catalogue catalogue, _) => catalogue.toFirestore(),
         )
         .snapshots()
-        .listen((snapshot) {
-      state = snapshot.docs.map((doc) => doc.data()).toList();
+        .listen((snapshot) async {
+      final catalogues = await Future.wait(snapshot.docs.map((doc) async {
+        final catalogue = doc.data();
+        await catalogue.loadCategories(); // Cargar categorías
+        return catalogue;
+      }).toList());
+
+      state = catalogues;
     });
   }
 
   Future<void> addCatalogue(Catalogue catalogue) async {
-    final doc = db
-        .collection('catalogues')
-        .doc(); // Cambiado de 'catalogue' a 'catalogues'
+    final doc = db.collection('catalogue').doc();
     try {
       await doc.set(catalogue.toFirestore());
     } catch (e) {
@@ -41,10 +44,7 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
 
   Future<void> deleteCatalogue(String id) async {
     try {
-      await db
-          .collection('catalogues')
-          .doc(id)
-          .delete(); // Cambiado de 'catalogue' a 'catalogues'
+      await db.collection('catalogue').doc(id).delete();
     } catch (e) {
       print(e);
     }

@@ -27,6 +27,7 @@ class _WarehouseScreenState extends ConsumerState<WarehouseScreen> {
         title: const Text('Warehouse'),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'warehouseScreen',
         onPressed: () => context.goNamed(NewWarehouseScreen.name),
         child: const Icon(Icons.add),
       ),
@@ -41,7 +42,6 @@ class _WarehousesView extends StatelessWidget {
   const _WarehousesView({required this.warehouses});
 
   Color getColor(int index, BuildContext context) {
-    // Define el color principal (puedes personalizarlo)
     final List<Color> colors = colorsList;
     return colors[index % colors.length];
   }
@@ -60,7 +60,7 @@ class _WarehousesView extends StatelessWidget {
         return WarehouseItem(
           warehouse: warehouse,
           onTap: () => _goToWarehouseDetails(context, warehouse),
-          backgroundColor: itemColor, // Pasa el color al WarehouseItem
+          backgroundColor: itemColor,
         );
       },
     );

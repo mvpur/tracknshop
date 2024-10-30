@@ -15,7 +15,7 @@ class ItemNotifier extends StateNotifier<List<Item>> {
 
   void _listenToItems() {
     db
-        .collection('item') // Suponiendo que tienes una colección de items
+        .collection('item')
         .withConverter(
           fromFirestore: Item.fromFirestore,
           toFirestore: (Item item, _) => item.toFirestore(),
@@ -27,7 +27,7 @@ class ItemNotifier extends StateNotifier<List<Item>> {
   }
 
   Future<void> addItem(Item item) async {
-    final doc = db.collection('items').doc();
+    final doc = db.collection('item').doc();
     try {
       await doc.set(item.toFirestore());
     } catch (e) {
@@ -37,7 +37,7 @@ class ItemNotifier extends StateNotifier<List<Item>> {
 
   Future<void> updateItem(Item item) async {
     try {
-      await db.collection('items').doc(item.id).update(item.toFirestore());
+      await db.collection('item').doc(item.id).update(item.toFirestore());
     } catch (e) {
       print(e);
     }
@@ -45,7 +45,7 @@ class ItemNotifier extends StateNotifier<List<Item>> {
 
   Future<void> deleteItem(String id) async {
     try {
-      await db.collection('items').doc(id).delete();
+      await db.collection('item').doc(id).delete();
     } catch (e) {
       print(e);
     }

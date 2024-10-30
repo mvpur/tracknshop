@@ -7,7 +7,7 @@ class Warehouse {
   final int icon;
   final String name;
   final DateTime date;
-  List<Item>? items; // Lista de Items en el Warehouse
+  List<Item>? items;
 
   Warehouse({
     required this.id,
@@ -18,6 +18,7 @@ class Warehouse {
   });
 
   Icon getIcon() {
+    Icons.list_rounded;
     return Icon(IconData(icon, fontFamily: 'MaterialIcons'));
   }
 
@@ -32,7 +33,6 @@ class Warehouse {
     );
   }
 
-  // Convertir un documento Firestore a un objeto Warehouse
   factory Warehouse.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> doc,
     SnapshotOptions? options,
@@ -41,7 +41,6 @@ class Warehouse {
     return Warehouse.fromMap(data);
   }
 
-  // Convertir un objeto Warehouse a un mapa para Firestore
   Map<String, dynamic> toFirestore() {
     return {
       'id': id,
@@ -51,8 +50,6 @@ class Warehouse {
     };
   }
 
-  // Método para cargar los Items desde Firestore y llenar la lista de items
-  // Método para cargar los Items desde Firestore y llenar la lista de items
   Future<void> loadItems() async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -66,11 +63,11 @@ class Warehouse {
       items = itemsSnapshot.docs.map((doc) {
         return Item.fromFirestore(
           doc,
-          null, // Aquí no necesitas SnapshotOptions
+          null,
         );
       }).toList();
     } catch (e) {
-      print('Error loading items: $e'); // Imprime el error en consola
+      print('Error loading items: $e');
     }
   }
 }

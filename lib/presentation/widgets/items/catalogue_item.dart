@@ -9,12 +9,16 @@ class CatalogueItem extends ConsumerWidget {
     super.key,
     required this.catalogue,
     this.onTap,
-    required this.backgroundColor, // Nuevo parámetro
+    required this.backgroundColor,
   });
 
   final Catalogue catalogue;
   final Function? onTap;
-  final Color backgroundColor; // Nuevo atributo
+  final Color backgroundColor;
+
+  IconData getIcon(int iconCode) {
+    return IconData(iconCode, fontFamily: 'MaterialIcons');
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,8 +26,9 @@ class CatalogueItem extends ConsumerWidget {
         DateFormat('dd/MM/yyyy').format(catalogue.date);
 
     return Card(
-      color: backgroundColor, // Usa el color de fondo aquí
+      color: backgroundColor,
       child: ListTile(
+        leading: Icon(getIcon(catalogue.icon)),
         title: Text(catalogue.name.toString()),
         subtitle: Text('Date: $formattedDate'),
         onTap: () => onTap?.call(),

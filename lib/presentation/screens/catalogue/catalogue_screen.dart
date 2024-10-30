@@ -32,6 +32,7 @@ class _CatalogueScreenState extends ConsumerState<CatalogueScreen> {
         title: const Text('Catalogue'),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'catalogueScreen',
         onPressed: () => context.goNamed(NewCatalogueScreen.name),
         child: const Icon(Icons.add),
       ),
@@ -46,7 +47,6 @@ class _CataloguesView extends StatelessWidget {
   const _CataloguesView({required this.catalogues});
 
   Color getColor(int index, BuildContext context) {
-    // Define el color principal (puedes personalizarlo)
     final List<Color> colors = colorsList;
     return colors[index % colors.length];
   }
@@ -62,11 +62,11 @@ class _CataloguesView extends StatelessWidget {
       itemCount: catalogues.length,
       itemBuilder: (context, index) {
         final catalogue = catalogues[index];
-        final itemColor = getColor(index, context); // Ahora pasamos el contexto
+        final itemColor = getColor(index, context);
         return CatalogueItem(
           catalogue: catalogue,
           onTap: () => _goToCatalogueDetails(context, catalogue),
-          backgroundColor: itemColor, // Pasa el color al CatalogueItem
+          backgroundColor: itemColor,
         );
       },
     );

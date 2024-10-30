@@ -4,7 +4,7 @@ import 'category.dart';
 
 class Catalogue {
   final String id;
-  String icon;
+  int icon;
   final String name;
   final DateTime date;
   List<Category>? categories;
@@ -17,9 +17,8 @@ class Catalogue {
     this.categories,
   });
 
-  // Obtener el ícono como un IconData
-  IconData getIconData() {
-    return IconData(icon.codeUnitAt(0), fontFamily: 'MaterialIcons');
+  Icon getIcon() {
+    return Icon(IconData(icon, fontFamily: 'MaterialIcons'));
   }
 
   factory Catalogue.fromMap(Map<String, dynamic> data) {
@@ -41,7 +40,6 @@ class Catalogue {
     };
   }
 
-  // Factory para crear Catalogue desde un DocumentSnapshot de Firestore
   factory Catalogue.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> doc,
     SnapshotOptions? options,
@@ -50,7 +48,6 @@ class Catalogue {
     return Catalogue.fromMap(data);
   }
 
-  // Método para cargar las categorías como subcolección desde Firestore
   Future<void> loadCategories() async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     final categoriesSnapshot = await firestore
@@ -59,11 +56,15 @@ class Catalogue {
         .collection('category')
         .get();
 
-    // Mapear documentos a objetos Category
-    categories = categoriesSnapshot.docs.map((doc) {
-      return Category.fromFirestore(
-          doc.data() as DocumentSnapshot<Map<String, dynamic>>,
-          doc.id as SnapshotOptions?);
-    }).toList();
+    categories = await Future.wait(categoriesSnapshot.docs.map((doc) async {
+      final category = Category.fromFirestore(
+        doc,
+        null,
+      );
+      await category.loadItems(id); // Cargar ítems de cada categoría
+      return category;
+    }).toList());
   }
+
+  loadItems() {}
 }

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:track_shop_app/entities/catalogue.dart';
-import 'package:track_shop_app/presentation/screens/element/new_element_dialog.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
-import 'package:go_router/go_router.dart';
-import 'package:track_shop_app/presentation/screens/category/new_category_screen.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class CatalogueDetailScreen extends ConsumerWidget {
   static const String name = 'catalogue_detail_screen';
@@ -23,7 +20,7 @@ class CatalogueDetailScreen extends ConsumerWidget {
       orElse: () => Catalogue(
         id: catalogueId,
         name: '',
-        icon: '',
+        icon: 0,
         date: DateTime.now(),
       ),
     );
@@ -37,7 +34,13 @@ class CatalogueDetailScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Catalogue Detail'),
+        title: Row(
+          children: [
+            catalogue.getIcon(), // Mostrar el ícono del catálogo
+            const SizedBox(width: 8),
+            Text(catalogue.name),
+          ],
+        ),
       ),
       floatingActionButton: _buildSpeedDial(context),
       body: _CatalogueDetailView(catalogue: catalogue),
@@ -46,6 +49,7 @@ class CatalogueDetailScreen extends ConsumerWidget {
 
   Widget _buildSpeedDial(BuildContext context) {
     return SpeedDial(
+      heroTag: 'catalogueDetailSpeedDial',
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -56,17 +60,10 @@ class CatalogueDetailScreen extends ConsumerWidget {
       spaceBetweenChildren: 12,
       children: [
         SpeedDialChild(
-          child: const Icon(Icons.list_alt),
-          label: 'New Element',
+          child: const Icon(Icons.add),
+          label: 'Add Item',
           onTap: () {
-            showCreateElementDialog(context);
-          },
-        ),
-        SpeedDialChild(
-          child: const Icon(Icons.category),
-          label: 'Add Category',
-          onTap: () {
-            context.goNamed(NewCategoryScreen.name);
+            // TODO: Lógica para añadir un nuevo ítem
           },
         ),
       ],
@@ -83,46 +80,27 @@ class _CatalogueDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameController =
-        TextEditingController(text: catalogue.name);
-    final TextEditingController iconController =
-        TextEditingController(text: catalogue.icon);
-    final TextEditingController dateController =
-        TextEditingController(text: catalogue.date.toString());
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                hintText: 'Catalogue Name',
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: iconController,
-              decoration: const InputDecoration(
-                hintText: 'Icon',
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: dateController,
-              decoration: const InputDecoration(
-                hintText: 'Date',
-              ),
-            ),
-          ),
-        ],
-      ),
+    return ListView(
+      padding: const EdgeInsets.all(8.0),
+      children: [
+        const SizedBox(height: 16),
+        if (catalogue.categories != null)
+          ...catalogue.categories!.map((category) {
+            return ExpansionTile(
+              title: Text(category.name),
+              children: category.items != null
+                  ? category.items!.map((item) {
+                      return ListTile(
+                        title: Text(item.name),
+                        subtitle: Text('Category: ${category.name}'),
+                      );
+                    }).toList()
+                  : [const Text('No items available')],
+            );
+          }).toList()
+        else
+          const Center(child: CircularProgressIndicator()), // Loading indicator
+      ],
     );
   }
 }

@@ -16,7 +16,6 @@ class WarehouseItem extends ConsumerWidget {
   final Function? onTap;
   final Color backgroundColor;
 
-  // Método para obtener el icono usando el código de icono
   IconData getIcon(int iconCode) {
     return IconData(iconCode, fontFamily: 'MaterialIcons');
   }
@@ -29,7 +28,7 @@ class WarehouseItem extends ConsumerWidget {
     return Card(
       color: backgroundColor,
       child: ListTile(
-        leading: Icon(getIcon(warehouse.icon)), // Usa el método getIcon
+        leading: Icon(getIcon(warehouse.icon)),
         title: Text(warehouse.name.toString()),
         subtitle: Text('Date: $formattedDate'),
         onTap: () => onTap?.call(),

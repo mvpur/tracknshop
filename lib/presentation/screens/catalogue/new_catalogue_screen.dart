@@ -68,7 +68,7 @@ class _NewCatalogueScreenState extends ConsumerState<NewCatalogueScreen> {
                       id: '',
                       name: _nameController.text.trim(),
                       date: DateTime.now(),
-                      icon: '',
+                      icon: 0,
                     );
 
                     await ref

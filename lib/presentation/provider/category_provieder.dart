@@ -16,8 +16,8 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
 
   void _listenToCategories() {
     db
-        .collection('categories') // Cambiado de 'category' a 'categories'
-        .orderBy('date', descending: true) // Ordenar por el campo 'date'
+        .collection('category')
+        .orderBy('date', descending: true)
         .withConverter(
           fromFirestore: Category.fromFirestore,
           toFirestore: (Category category, _) => category.toFirestore(),
@@ -29,9 +29,7 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
   }
 
   Future<void> addCategory(Category category) async {
-    final doc = db
-        .collection('categories')
-        .doc(); // Cambiado de 'category' a 'categories'
+    final doc = db.collection('category').doc();
     try {
       await doc.set(category.toFirestore());
     } catch (e) {
@@ -41,10 +39,7 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
 
   Future<void> deleteCategory(String id) async {
     try {
-      await db
-          .collection('categories')
-          .doc(id)
-          .delete(); // Cambiado de 'category' a 'categories'
+      await db.collection('category').doc(id).delete();
     } catch (e) {
       print(e);
     }

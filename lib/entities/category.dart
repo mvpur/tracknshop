@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'item.dart'; // Importar la clase Item
+import 'package:track_shop_app/entities/item.dart';
 
 class Category {
   final String id;
   final String name;
-  List<Item>? items; // Lista de Items en la Category
+  List<Item>? items;
 
   Category({
     required this.id,
@@ -12,7 +12,6 @@ class Category {
     this.items,
   });
 
-  // Crear una instancia de Category a partir de un Map
   factory Category.fromMap(Map<String, dynamic> data) {
     return Category(
       id: data['id'] ?? '',
@@ -20,14 +19,12 @@ class Category {
     );
   }
 
-  // Convertir Category a un Map para Firestore
   Map<String, dynamic> toFirestore() {
     return {
       'name': name,
     };
   }
 
-  // Factory para crear Category a partir de un documento Firestore
   factory Category.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> doc,
     SnapshotOptions? options,
@@ -36,7 +33,6 @@ class Category {
     return Category.fromMap(data);
   }
 
-  // Método para cargar Items desde la subcolección 'Items' en Firestore
   Future<void> loadItems(String catalogueId) async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     final itemsSnapshot = await firestore
@@ -44,13 +40,29 @@ class Category {
         .doc(catalogueId)
         .collection('category')
         .doc(id)
-        .collection('items')
+        .collection('item')
         .get();
 
     items = itemsSnapshot.docs.map((doc) {
       return Item.fromFirestore(
-          doc.data() as DocumentSnapshot<Map<String, dynamic>>,
-          doc.id as SnapshotOptions?);
+          doc as DocumentSnapshot<Map<String, dynamic>>, null);
     }).toList();
+  }
+
+  void loadCategoriesAndItems(String catalogueId) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final categoriesSnapshot = await firestore
+        .collection('catalogue')
+        .doc(catalogueId)
+        .collection('category')
+        .get();
+
+    final categories = categoriesSnapshot.docs.map((doc) async {
+      final category = Category.fromFirestore(doc, null);
+      await category.loadItems(catalogueId);
+      return category;
+    }).toList();
+
+    // Puedes ahora usar 'categories' con sus ítems ya cargados
   }
 }

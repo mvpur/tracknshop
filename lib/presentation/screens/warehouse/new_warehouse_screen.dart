@@ -106,7 +106,7 @@ class _NewWarehouseScreenState extends ConsumerState<NewWarehouseScreen> {
                       name: _nameController.text.trim(),
                       date: DateTime.now(),
                       icon: selectedIcon!.codePoint,
-                      id: '', // Guarda el código del icono
+                      id: '',
                     );
 
                     await ref
