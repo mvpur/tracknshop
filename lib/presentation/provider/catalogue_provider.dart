@@ -25,7 +25,7 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
         .listen((snapshot) async {
       final catalogues = await Future.wait(snapshot.docs.map((doc) async {
         final catalogue = doc.data();
-        await catalogue.loadCategories(); // Cargar categorías
+        await catalogue.loadCategories(); 
         return catalogue;
       }).toList());
 

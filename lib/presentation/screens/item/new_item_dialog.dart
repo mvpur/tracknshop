@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Future<void> showCreateElementDialog(BuildContext context) {
+Future<void> showCreateItemDialog(BuildContext context) {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -9,7 +9,7 @@ Future<void> showCreateElementDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Create New Element'),
+        title: const Text('Create new item'),
         content: Form(
           key: formKey,
           child: Column(
@@ -57,7 +57,7 @@ Future<void> showCreateElementDialog(BuildContext context) {
               if (formKey.currentState!.validate()) {
                 final String name = nameController.text;
                 final String category = categoryController.text;
-  
+
                 Navigator.of(context).pop();
               }
             },

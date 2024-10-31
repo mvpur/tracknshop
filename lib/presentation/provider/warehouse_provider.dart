@@ -13,7 +13,6 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
   WarehouseNotifier(this.db) : super([]) {
     _listenToWarehouses();
   }
-
   void _listenToWarehouses() {
     db
         .collection('warehouse')
@@ -24,12 +23,11 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
         )
         .snapshots()
         .listen((snapshot) async {
-      final warehouses = snapshot.docs.map((doc) => doc.data()).toList();
-
-      for (var warehouse in warehouses) {
-        await warehouse.loadItems();
-        print("Loaded items for warehouse: ${warehouse.name}");
-      }
+      final warehouses = await Future.wait(snapshot.docs.map((doc) async {
+        final warehouse = doc.data();
+        await warehouse.loadCategories();
+        return warehouse;
+      }).toList());
 
       state = warehouses;
     });

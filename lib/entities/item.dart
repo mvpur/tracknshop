@@ -6,7 +6,7 @@ class Item {
   final bool isCompleted;
   final String categoryId;
   final String catalogueId;
-  final String warehouseId; 
+  final String warehouseId;
 
   Item({
     required this.id,
@@ -29,9 +29,9 @@ class Item {
     return Item(
       id: data['id'] ?? '',
       name: data['name'] ?? 'Sin Nombre',
-      categoryId: data['category_id'] ?? 'Sin category',
+      categoryId: data['category_id'] ?? 'No category',
       catalogueId: data['catalogue_id'] ?? 'Sin catalogue',
-      warehouseId: data['warehouse_id'] ?? 'Sin warehouse', 
+      warehouseId: data['warehouse_id'] ?? 'No warehouse',
     );
   }
 

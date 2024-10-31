@@ -14,15 +14,9 @@ class ItemNotifier extends StateNotifier<List<Item>> {
   }
 
   void _listenToItems() {
-    db
-        .collection('item')
-        .withConverter(
-          fromFirestore: Item.fromFirestore,
-          toFirestore: (Item item, _) => item.toFirestore(),
-        )
-        .snapshots()
-        .listen((snapshot) {
-      state = snapshot.docs.map((doc) => doc.data()).toList();
+    db.collection('item').snapshots().listen((snapshot) {
+      state =
+          snapshot.docs.map((doc) => Item.fromFirestore(doc, null)).toList();
     });
   }
 
@@ -31,15 +25,7 @@ class ItemNotifier extends StateNotifier<List<Item>> {
     try {
       await doc.set(item.toFirestore());
     } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> updateItem(Item item) async {
-    try {
-      await db.collection('item').doc(item.id).update(item.toFirestore());
-    } catch (e) {
-      print(e);
+      print('Error adding item: $e');
     }
   }
 
@@ -47,7 +33,23 @@ class ItemNotifier extends StateNotifier<List<Item>> {
     try {
       await db.collection('item').doc(id).delete();
     } catch (e) {
-      print(e);
+      print('Error deleting item: $e');
+    }
+  }
+
+  Future<List<Item>> getItemsForCategory(String categoryId) async {
+    try {
+      final itemsSnapshot = await db
+          .collection('item')
+          .where('category_id', isEqualTo: categoryId)
+          .get();
+
+      return itemsSnapshot.docs.map((doc) {
+        return Item.fromFirestore(doc, null);
+      }).toList();
+    } catch (e) {
+      print('Error fetching items: $e');
+      return [];
     }
   }
 }

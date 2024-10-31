@@ -21,4 +21,5 @@ final List<IconData> iconList = [
   Icons.pets,
   Icons.pedal_bike,
   Icons.beach_access,
+  Icons.list_rounded,
 ];

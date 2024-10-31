@@ -4,17 +4,15 @@ import 'category.dart';
 
 class Catalogue {
   final String id;
-  int icon;
+  final int icon;
   final String name;
   final DateTime date;
-  List<Category>? categories;
 
   Catalogue({
     required this.id,
     required this.icon,
     required this.name,
     required this.date,
-    this.categories,
   });
 
   Icon getIcon() {
@@ -24,7 +22,7 @@ class Catalogue {
   factory Catalogue.fromMap(Map<String, dynamic> data) {
     return Catalogue(
       id: data['id'] ?? '',
-      icon: data['icon'] ?? '',
+      icon: data['icon'] ?? 0, 
       name: data['name'] ?? 'Sin Nombre',
       date: (data['date'] != null && data['date'] is Timestamp)
           ? (data['date'] as Timestamp).toDate()
@@ -48,23 +46,15 @@ class Catalogue {
     return Catalogue.fromMap(data);
   }
 
-  Future<void> loadCategories() async {
+  Future<List<Category>> loadCategories() async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     final categoriesSnapshot = await firestore
-        .collection('catalogue')
-        .doc(id)
         .collection('category')
+        .where('catalogue_id', isEqualTo: id)
         .get();
 
-    categories = await Future.wait(categoriesSnapshot.docs.map((doc) async {
-      final category = Category.fromFirestore(
-        doc,
-        null,
-      );
-      await category.loadItems(id); // Cargar ítems de cada categoría
-      return category;
-    }).toList());
+    return categoriesSnapshot.docs.map((doc) {
+      return Category.fromFirestore(doc, null);
+    }).toList();
   }
-
-  loadItems() {}
 }
