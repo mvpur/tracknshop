@@ -8,6 +8,7 @@ import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:track_shop_app/presentation/screens/category/new_category_dialog.dart';
+import 'package:track_shop_app/presentation/widgets/speed_dial.dart';
 
 class WarehouseDetailScreen extends ConsumerWidget {
   static const String name = 'warehouse_detail_screen';
@@ -53,36 +54,9 @@ class WarehouseDetailScreen extends ConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton: _buildSpeedDial(context),
+      floatingActionButton:
+          const AppSpeedDial(heroTag: 'warehouseDetailSpeedDial'),
       body: _WarehouseDetailView(categories: filteredCategories),
-    );
-  }
-
-  Widget _buildSpeedDial(BuildContext context) {
-    return SpeedDial(
-      heroTag: 'warehouseDetailSpeedDial',
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      icon: Icons.add,
-      overlayColor: Colors.black,
-      overlayOpacity: 0.4,
-      spacing: 12,
-      spaceBetweenChildren: 12,
-      children: [
-        SpeedDialChild(
-          child: const Icon(Icons.add),
-          label: 'Add Item',
-          onTap: () {
-            // TODO: Lógica para añadir un nuevo ítem
-          },
-        ),
-        SpeedDialChild(
-          child: const Icon(Icons.add),
-          label: 'Add category',
-          onTap: () => context.goNamed(NewCategoryDialog.name),
-        ),
-      ],
     );
   }
 }
@@ -105,7 +79,7 @@ class _WarehouseDetailView extends ConsumerWidget {
               children: [
                 FutureBuilder<List<Item>>(
                   future: category
-                      .loadItems(), // Asegúrate de que esto esté correcto
+                      .loadItems(), 
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());

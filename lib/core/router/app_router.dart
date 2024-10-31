@@ -33,11 +33,6 @@ final GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/new-category',
-      name: NewCategoryDialog.name,
-      builder: (context, state) => const NewCategoryDialog(),
-    ),
-    GoRoute(
       path: '/new-catalogue',
       name: NewCatalogueScreen.name,
       builder: (context, state) => const NewCatalogueScreen(),

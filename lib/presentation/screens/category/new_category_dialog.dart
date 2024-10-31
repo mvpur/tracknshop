@@ -23,8 +23,8 @@ class NewCategoryDialog extends ConsumerWidget {
             TextField(
               controller: nameController,
               decoration: const InputDecoration(
-                labelText: 'Name of new Category',
-                hintText: 'Name',
+                labelText: 'Name of new category',
+                hintText: 'Supermarket',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.store),
               ),

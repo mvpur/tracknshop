@@ -1,70 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:track_shop_app/presentation/provider/item_provider.dart';
+import 'package:track_shop_app/presentation/screens/catalogue/catalogue_screen.dart';
+import 'package:track_shop_app/entities/item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-Future<void> showCreateItemDialog(BuildContext context) {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController categoryController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+class NewItemDialog extends ConsumerWidget {
+  const NewItemDialog({super.key});
+  static const String name = 'new_item';
 
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Create new item'),
-        content: Form(
-          key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a name';
-                  }
-                  return null;
-                },
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController nameController = TextEditingController();
+
+    return AlertDialog(
+      title: const Text('New Item'),
+      content: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                labelText: 'Name of new item',
+                hintText: 'Milk',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.store),
               ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: categoryController,
-                decoration: const InputDecoration(
-                  labelText: 'Category',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a category';
-                  }
-                  return null;
-                },
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 20.0),
+          ],
         ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            final String itemName = nameController.text.trim();
+            if (itemName.isNotEmpty) {
+              final newItem = Item(
+                  id: '',
+                  name: itemName,
+                  catalogueId: '',
+                  warehouseId: '',
+                  categoryId: '');
+              ref.read(itemProvider.notifier).addItem(newItem);
               Navigator.of(context).pop();
-            },
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                final String name = nameController.text;
-                final String category = categoryController.text;
-
-                Navigator.of(context).pop();
-              }
-            },
-            child: const Text('Create'),
-          ),
-        ],
-      );
-    },
-  );
+              context.goNamed(CatalogueScreen.name);
+            } else {
+              // TODO: mostrar un mensaje de error si el nombre está vacío
+            }
+          },
+          child: const Text('Confirm'),
+        ),
+      ],
+    );
+  }
 }

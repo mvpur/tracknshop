@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/entities/category.dart';
 import 'package:track_shop_app/entities/item.dart';
@@ -8,6 +7,8 @@ import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:track_shop_app/presentation/screens/category/new_category_dialog.dart';
+import 'package:track_shop_app/presentation/screens/item/new_item_dialog.dart';
+import 'package:track_shop_app/presentation/widgets/speed_dial.dart';
 
 class CatalogueDetailScreen extends ConsumerWidget {
   static const String name = 'catalogue_detail_screen';
@@ -53,37 +54,9 @@ class CatalogueDetailScreen extends ConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton: _buildSpeedDial(context),
+      floatingActionButton:
+          const AppSpeedDial(heroTag: 'catalogueDetailSpeedDial'),
       body: _CatalogueDetailView(categories: filteredCategories),
-    );
-  }
-
-  Widget _buildSpeedDial(BuildContext context) {
-    return SpeedDial(
-      heroTag: 'catalogueDetailSpeedDial',
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      icon: Icons.add,
-      overlayColor: Colors.black,
-      overlayOpacity: 0.4,
-      spacing: 12,
-      spaceBetweenChildren: 12,
-      children: [
-        SpeedDialChild(
-          child: const Icon(Icons.add),
-          label: 'Add Item',
-          onTap: () {
-            // TODO: Lógica para añadir un nuevo ítem
-          },
-        ),
-        SpeedDialChild(
-          child: const Icon(Icons.add),
-          label: 'Add category',
-          onTap: () => context.goNamed(
-              NewCategoryDialog.name), 
-        ),
-      ],
     );
   }
 }
@@ -105,7 +78,7 @@ class _CatalogueDetailView extends StatelessWidget {
               title: Text(category.name),
               children: [
                 FutureBuilder<List<Item>>(
-                  future: category.loadItems(), 
+                  future: category.loadItems(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -130,7 +103,7 @@ class _CatalogueDetailView extends StatelessWidget {
         else
           const Center(
               child: Text(
-                  'No categories available')), // Mensaje si no hay categorías
+                  'No categories available')), 
       ],
     );
   }
