@@ -54,8 +54,8 @@ class WarehouseDetailScreen extends ConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton:
-          const AppSpeedDial(heroTag: 'warehouseDetailSpeedDial'),
+      floatingActionButton: AppSpeedDial(
+          heroTag: 'warehouseDetailSpeedDial', warehouse: warehouse),
       body: _WarehouseDetailView(categories: filteredCategories),
     );
   }
@@ -78,8 +78,7 @@ class _WarehouseDetailView extends ConsumerWidget {
               title: Text(category.name),
               children: [
                 FutureBuilder<List<Item>>(
-                  future: category
-                      .loadItems(), 
+                  future: category.loadItems(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());

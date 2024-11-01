@@ -4,17 +4,17 @@ class Item {
   final String id;
   final String name;
   final bool isCompleted;
-  final String categoryId;
-  final String catalogueId;
-  final String warehouseId;
+  final String? categoryId;
+  final String? catalogueId;
+  final String? warehouseId;
 
   Item({
     required this.id,
     required this.name,
     this.isCompleted = false,
-    required this.categoryId,
-    required this.catalogueId,
-    required this.warehouseId,
+    this.categoryId,
+    this.catalogueId,
+    this.warehouseId,
   });
 
   factory Item.fromFirestore(

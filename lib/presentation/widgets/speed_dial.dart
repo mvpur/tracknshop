@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:track_shop_app/entities/catalogue.dart';
+import 'package:track_shop_app/entities/category.dart';
+import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/presentation/screens/category/new_category_dialog.dart';
 import 'package:track_shop_app/presentation/screens/item/new_item_dialog.dart';
 
 class AppSpeedDial extends StatelessWidget {
   final String heroTag;
-
-  const AppSpeedDial({super.key, required this.heroTag});
+  final Warehouse? warehouse;
+  final Catalogue? catalogue;
+  final Category? category;
+  const AppSpeedDial(
+      {super.key,
+      required this.heroTag,
+      this.warehouse,
+      this.catalogue,
+      this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +37,7 @@ class AppSpeedDial extends StatelessWidget {
           onTap: () => showDialog(
             context: context,
             builder: (BuildContext context) {
-              return const NewItemDialog();
+              return NewItemDialog(warehouse?.id, catalogue?.id, category?.id);
             },
           ),
         ),
@@ -37,7 +47,7 @@ class AppSpeedDial extends StatelessWidget {
           onTap: () => showDialog(
             context: context,
             builder: (BuildContext context) {
-              return const NewCategoryDialog();
+              return NewCategoryDialog(warehouse?.id, catalogue?.id);
             },
           ),
         ),

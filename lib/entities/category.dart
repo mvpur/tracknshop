@@ -4,14 +4,14 @@ import 'package:track_shop_app/entities/item.dart';
 class Category {
   final String id;
   final String name;
-  final String catalogueId;
-  final String warehouseId;
+  final String? catalogueId;
+  final String? warehouseId;
 
   Category({
     required this.id,
     required this.name,
-    required this.catalogueId,
-    required this.warehouseId,
+    this.catalogueId,
+    this.warehouseId,
   });
 
   factory Category.fromMap(Map<String, dynamic> data) {

@@ -54,8 +54,8 @@ class CatalogueDetailScreen extends ConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton:
-          const AppSpeedDial(heroTag: 'catalogueDetailSpeedDial'),
+      floatingActionButton: AppSpeedDial(
+          heroTag: 'catalogueDetailSpeedDial', catalogue: catalogue),
       body: _CatalogueDetailView(categories: filteredCategories),
     );
   }
@@ -101,9 +101,7 @@ class _CatalogueDetailView extends StatelessWidget {
             );
           }).toList()
         else
-          const Center(
-              child: Text(
-                  'No categories available')), 
+          const Center(child: Text('No categories available')),
       ],
     );
   }
