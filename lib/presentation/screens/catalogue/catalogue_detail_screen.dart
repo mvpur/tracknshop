@@ -5,9 +5,6 @@ import 'package:track_shop_app/entities/category.dart';
 import 'package:track_shop_app/entities/item.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:track_shop_app/presentation/screens/category/new_category_dialog.dart';
-import 'package:track_shop_app/presentation/screens/item/new_item_dialog.dart';
 import 'package:track_shop_app/presentation/widgets/speed_dial.dart';
 
 class CatalogueDetailScreen extends ConsumerWidget {

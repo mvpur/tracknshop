@@ -11,12 +11,14 @@ class AppSpeedDial extends StatelessWidget {
   final Warehouse? warehouse;
   final Catalogue? catalogue;
   final Category? category;
-  const AppSpeedDial(
-      {super.key,
-      required this.heroTag,
-      this.warehouse,
-      this.catalogue,
-      this.category});
+
+  const AppSpeedDial({
+    super.key,
+    required this.heroTag,
+    this.warehouse,
+    this.catalogue,
+    this.category,
+  });
 
   @override
   Widget build(BuildContext context) {

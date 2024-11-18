@@ -4,6 +4,7 @@ import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_screen.dart';
+import 'package:track_shop_app/core/data/icons_datasource.dart';
 
 class NewCatalogueScreen extends ConsumerStatefulWidget {
   const NewCatalogueScreen({super.key});
@@ -32,16 +33,53 @@ class _NewCatalogueScreenState extends ConsumerState<NewCatalogueScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
               controller: _nameController,
               decoration: const InputDecoration(
                 labelText: 'Name of new catalogue',
-                hintText: 'Shopping List',
+                hintText: 'My Pantry',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.store),
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            const Text(
+              'Select an icon:',
+              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10.0),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  mainAxisSpacing: 10.0,
+                  crossAxisSpacing: 10.0,
+                ),
+                itemCount: iconList.length,
+                itemBuilder: (context, index) {
+                  final icon = iconList[index];
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedIcon = icon;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: selectedIcon == icon
+                            ? Colors.blueAccent.withOpacity(0.2)
+                            : Colors.transparent,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        icon,
+                        color: selectedIcon == icon ? Colors.blue : Colors.grey,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 20.0),
@@ -54,21 +92,21 @@ class _NewCatalogueScreenState extends ConsumerState<NewCatalogueScreen> {
                 ),
                 FilledButton(
                   onPressed: () async {
-                    if (_nameController.text.isEmpty) {
+                    if (_nameController.text.isEmpty || selectedIcon == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content:
-                              Text('Please enter a name for the catalogue'),
+                              Text('Please enter a name and select an icon'),
                         ),
                       );
                       return;
                     }
 
                     final newCatalogue = Catalogue(
-                      id: '',
                       name: _nameController.text.trim(),
                       date: DateTime.now(),
-                      icon: 0,
+                      icon: selectedIcon!.codePoint,
+                      id: '',
                     );
 
                     await ref

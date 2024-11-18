@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:track_shop_app/presentation/screens/category/new_category_dialog.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_detail_screen.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/new_catalogue_screen.dart';
 import 'package:track_shop_app/presentation/screens/settings/settings_screen.dart';

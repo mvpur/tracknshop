@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
-import 'package:track_shop_app/presentation/screens/catalogue/catalogue_screen.dart';
 import 'package:track_shop_app/entities/category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:track_shop_app/presentation/widgets/snackbar.dart';
 
 class NewCategoryDialog extends ConsumerWidget {
-  const NewCategoryDialog(this.warehouseId, this.catalogueId, {super.key});
   static const String name = 'new_category';
+
   final String? warehouseId;
   final String? catalogueId;
+
+  const NewCategoryDialog(this.warehouseId, this.catalogueId, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,8 +19,7 @@ class NewCategoryDialog extends ConsumerWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: ConstrainedBox(
-        constraints:
-            BoxConstraints(maxWidth: 600), // Ajusta el ancho máximo aquí
+        constraints: const BoxConstraints(maxWidth: 600),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -61,9 +61,14 @@ class NewCategoryDialog extends ConsumerWidget {
                             .read(categoryProvider.notifier)
                             .addCategory(newCategory);
                         Navigator.of(context).pop();
-                        context.goNamed(CatalogueScreen.name);
                       } else {
-                        // TODO: mostrar un mensaje de error si el nombre está vacío
+                        if (categoryName.isEmpty) {
+                          SnackbarUtil.showSnackbar(
+                            context,
+                            'Name cant be empty!',
+                            backgroundColor: Colors.red,
+                          );
+                        }
                       }
                     },
                     child: const Text('Confirm'),

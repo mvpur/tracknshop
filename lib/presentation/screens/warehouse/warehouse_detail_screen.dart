@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/entities/category.dart';
 import 'package:track_shop_app/entities/item.dart';
 import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:track_shop_app/presentation/screens/category/new_category_dialog.dart';
 import 'package:track_shop_app/presentation/widgets/speed_dial.dart';
 
 class WarehouseDetailScreen extends ConsumerWidget {
