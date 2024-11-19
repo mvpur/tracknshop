@@ -50,6 +50,14 @@ class WarehouseDetailScreen extends ConsumerWidget {
             Text(warehouse.name),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notification_add_rounded),
+            onPressed: () {
+              // Acción al presionar el ícono de alarma
+            },
+          ),
+        ],
       ),
       floatingActionButton: AppSpeedDial(
           heroTag: 'warehouseDetailSpeedDial', warehouse: warehouse),

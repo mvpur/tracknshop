@@ -50,6 +50,14 @@ class CatalogueDetailScreen extends ConsumerWidget {
             Text(catalogue.name),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notification_add_rounded),
+            onPressed: () {
+              // Acción al presionar el ícono de alarma
+            },
+          ),
+        ],
       ),
       floatingActionButton: AppSpeedDial(
           heroTag: 'catalogueDetailSpeedDial', catalogue: catalogue),

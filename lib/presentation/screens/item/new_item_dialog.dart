@@ -6,12 +6,11 @@ import 'package:track_shop_app/presentation/provider/category_provider.dart';
 import 'package:track_shop_app/presentation/widgets/snackbar.dart';
 
 class NewItemDialog extends ConsumerWidget {
-  const NewItemDialog(this.warehouseId, this.catalogueId, this.categoryId,
+  const NewItemDialog(this.warehouseId, this.catalogueId, this.category,
       {super.key});
   final String? warehouseId;
   final String? catalogueId;
-  final String? categoryId;
-
+  final String? category;
   static const String name = 'new_item';
 
   @override
@@ -19,18 +18,18 @@ class NewItemDialog extends ConsumerWidget {
     final TextEditingController nameController = TextEditingController();
     final categories = ref.watch(categoryProvider);
 
-    // Filtrar categorías según el origen (warehouse o catalogue)
+    // Filtrar las categorías asociadas o sin vinculación.
     final filteredCategories = categories.where((category) {
-      if (warehouseId != null) {
-        return category.warehouseId == warehouseId;
-      } else if (catalogueId != null) {
-        return category.catalogueId == catalogueId;
-      }
-      return false;
+      final isLinkedToCurrent =
+          (warehouseId != null && category.warehouseId == warehouseId) ||
+              (catalogueId != null && category.catalogueId == catalogueId);
+      final isUnlinked =
+          category.warehouseId == null && category.catalogueId == null;
+
+      return isLinkedToCurrent || isUnlinked;
     }).toList();
 
     String? selectedCategoryId;
-
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: ConstrainedBox(
@@ -55,6 +54,8 @@ class NewItemDialog extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 20.0),
+
+              // Mostrar Dropdown o mensaje según las categorías disponibles.
               filteredCategories.isNotEmpty
                   ? DropdownButtonFormField<String>(
                       value: selectedCategoryId,
@@ -72,10 +73,19 @@ class NewItemDialog extends ConsumerWidget {
                         selectedCategoryId = value;
                       },
                     )
-                  : const Center(
-                      child: Text('No categories available for selection'),
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text(
+                        'No categories available to select.',
+                        style: TextStyle(
+                          color: Colors.grey.shade700,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
               const SizedBox(height: 20.0),
+
+              // Botones de acción.
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -88,18 +98,17 @@ class NewItemDialog extends ConsumerWidget {
                       final String itemName = nameController.text.trim();
                       if (itemName.isNotEmpty && selectedCategoryId != null) {
                         final newItem = Item(
-                          id: '',
-                          name: itemName,
-                          catalogueId: catalogueId,
-                          warehouseId: warehouseId,
-                          categoryId: selectedCategoryId,
-                        );
+                            id: '',
+                            name: itemName,
+                            catalogueId: catalogueId,
+                            warehouseId: warehouseId,
+                            categoryId: selectedCategoryId);
                         ref.read(itemProvider.notifier).addItem(newItem);
                         Navigator.of(context).pop();
                       } else {
                         SnackbarUtil.showSnackbar(
                           context,
-                          'Please fill all fields!',
+                          'Please enter a name and select a category.',
                           backgroundColor: Colors.red,
                         );
                       }
