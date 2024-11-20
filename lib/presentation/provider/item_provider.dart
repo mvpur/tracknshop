@@ -42,6 +42,33 @@ class ItemNotifier extends StateNotifier<List<Item>> {
     }
   }
 
+  Future<void> updateItemCompletionStatus(
+      String itemId, bool isCompleted) async {
+    try {
+      final userReference = await userNotifier.getDocumentReference();
+      final itemDoc = userReference.collection('item').doc(itemId);
+
+      // Actualizamos solo el campo 'isCompleted' en Firestore
+      await itemDoc.update({'isCompleted': isCompleted});
+
+      // Actualizamos el estado en la lista local de items sin usar copyWith
+      state = state.map((item) {
+        if (item.id == itemId) {
+          return Item(
+            id: item.id,
+            name: item.name,
+            isCompleted:
+                isCompleted, // Solo actualizamos el estado de isCompleted
+            categoryId: item.categoryId,
+          );
+        }
+        return item;
+      }).toList();
+    } catch (e) {
+      print('Error updating item completion status: $e');
+    }
+  }
+
   Future<List<Item>> getItemsForCategory(String categoryId) async {
     try {
       final userReference = await userNotifier.getDocumentReference();

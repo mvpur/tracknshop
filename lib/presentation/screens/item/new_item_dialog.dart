@@ -3,7 +3,7 @@ import 'package:track_shop_app/entities/item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/presentation/provider/item_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
-import 'package:track_shop_app/presentation/widgets/snackbar.dart';
+import 'package:track_shop_app/presentation/widgets/utils/snackbar.dart';
 
 class NewItemDialog extends ConsumerWidget {
   const NewItemDialog(this.warehouseId, this.catalogueId, this.category,

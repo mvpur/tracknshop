@@ -39,7 +39,7 @@ class _NewCatalogueScreenState extends ConsumerState<NewCatalogueScreen> {
               controller: _nameController,
               decoration: const InputDecoration(
                 labelText: 'Name of new catalogue',
-                hintText: 'My Pantry',
+                hintText: 'Shopping List',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.store),
               ),

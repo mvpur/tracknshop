@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 final List<IconData> iconList = [
   Icons.store,
-  Icons.warehouse,
+  Icons.book,
   Icons.inventory,
   Icons.home_work,
   Icons.local_shipping,
   Icons.construction,
   Icons.storage,
   Icons.kitchen,
+  Icons.panorama,
   Icons.bathroom,
   Icons.bedroom_baby,
   Icons.bed,

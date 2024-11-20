@@ -7,11 +7,10 @@ import 'package:track_shop_app/presentation/provider/user_provider.dart';
 final categoryProvider =
     StateNotifierProvider<CategoryNotifier, List<Category>>(
   (ref) {
-        final userNotifier = ref.read(userProvider.notifier);
-return CategoryNotifier(userNotifier);
-},
+    final userNotifier = ref.read(userProvider.notifier);
+    return CategoryNotifier(userNotifier);
+  },
 );
-
 
 class CategoryNotifier extends StateNotifier<List<Category>> {
   final UserNotifier userNotifier;
@@ -123,6 +122,58 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
     } catch (e) {
       print('Error fetching items: $e');
       return [];
+    }
+  }
+
+  void assignWarehouse({
+    required String categoryId,
+    required String warehouseId,
+  }) async {
+    try {
+      final userReference = await userNotifier.getDocumentReference();
+      final categoryDoc = userReference.collection('category').doc(categoryId);
+
+      await categoryDoc.update({'warehouse_id': warehouseId});
+
+      state = state.map((category) {
+        if (category.id == categoryId) {
+          return Category(
+            id: category.id,
+            name: category.name,
+            catalogueId: category.catalogueId,
+            warehouseId: warehouseId,
+          );
+        }
+        return category;
+      }).toList();
+    } catch (e) {
+      print('Error assigning warehouse: $e');
+    }
+  }
+
+  void assignCatalogue({
+    required String categoryId,
+    required String catalogueId,
+  }) async {
+    try {
+      final userReference = await userNotifier.getDocumentReference();
+      final categoryDoc = userReference.collection('category').doc(categoryId);
+
+      await categoryDoc.update({'catalogue_id': catalogueId});
+
+      state = state.map((category) {
+        if (category.id == categoryId) {
+          return Category(
+            id: category.id,
+            name: category.name,
+            warehouseId: category.warehouseId,
+            catalogueId: catalogueId, // Asignamos el catálogo
+          );
+        }
+        return category;
+      }).toList();
+    } catch (e) {
+      print('Error assigning catalogue: $e');
     }
   }
 }

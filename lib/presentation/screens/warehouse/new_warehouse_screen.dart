@@ -39,7 +39,7 @@ class _NewWarehouseScreenState extends ConsumerState<NewWarehouseScreen> {
               controller: _nameController,
               decoration: const InputDecoration(
                 labelText: 'Name of new warehouse',
-                hintText: 'My Pantry',
+                hintText: 'My Fridge',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.store),
               ),

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/presentation/provider/user_provider.dart';
 import 'package:track_shop_app/presentation/screens/user/register_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_screen.dart';
@@ -51,8 +50,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               onPressed: () async {
                 final userProviderNotifier = ref.read(userProvider.notifier);
                 try {
-                  final user = await userProviderNotifier.login(emailController.text, passwordController.text);
-                  if(user != null){
+                  final user = await userProviderNotifier.login(
+                      emailController.text, passwordController.text);
+                  if (user != null) {
                     context.goNamed(WarehouseScreen.name);
                   }
                 } on FirebaseAuthException catch (e) {
@@ -62,7 +62,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     print('Wrong password provided for that user.');
                   }
                 }
-
               },
               child: const Text('Login'),
             ),
@@ -71,7 +70,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               onPressed: () {
                 context.goNamed(RegisterScreen.name);
               },
-              child: const Text('No tienes cuenta? Regístrate'),
+              child: const Text('Create new account!'),
             ),
           ],
         ),

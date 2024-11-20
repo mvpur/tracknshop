@@ -48,8 +48,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               onPressed: () {
                 try {
                   final userProviderNotifier = ref.read(userProvider.notifier);
-                  final user = userProviderNotifier.register(widget.nameController.text,widget.emailController.text, widget.passwordController.text);
-                  if(user !=null){
+                  final user = userProviderNotifier.register(
+                      widget.nameController.text,
+                      widget.emailController.text,
+                      widget.passwordController.text);
+                  if (user != null) {
                     context.goNamed(LoginScreen.name);
                   }
                 } on FirebaseAuthException catch (e) {
@@ -61,9 +64,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 } catch (e) {
                   print(e);
                 }
-                print('Name: ${widget.nameController.text}');
-                print('Email: ${widget.emailController.text}');
-                print('Password: ${widget.passwordController.text}');
               },
               child: const Text('Register'),
             ),
@@ -72,7 +72,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               onPressed: () {
                 context.goNamed(LoginScreen.name);
               },
-              child: const Text('¿Ya tienes cuenta? Inicia sesión'),
+              child: const Text('Have an account? Log in!'),
             ),
           ],
         ),

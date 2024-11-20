@@ -7,7 +7,7 @@ import 'package:track_shop_app/presentation/screens/user/login_screen.dart';
 import 'package:track_shop_app/presentation/screens/user/register_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/new_warehouse_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_screen.dart';
-import 'package:track_shop_app/presentation/widgets/bottom_navbar_scaffold.dart';
+import 'package:track_shop_app/presentation/widgets/navbar_and_speeddial/bottom_navbar_scaffold.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_screen.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_screen.dart';
 

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/catalogue.dart';
-import 'package:track_shop_app/entities/category.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
-import 'package:track_shop_app/presentation/provider/item_provider.dart';
-import 'package:track_shop_app/presentation/widgets/speed_dial.dart';
+import 'package:track_shop_app/presentation/screens/category/category_catalogue_detail.dart';
+import 'package:track_shop_app/presentation/widgets/navbar_and_speeddial/speed_dial.dart';
 
 class CatalogueDetailScreen extends ConsumerWidget {
   static const String name = 'catalogue_detail_screen';
@@ -61,43 +60,7 @@ class CatalogueDetailScreen extends ConsumerWidget {
       ),
       floatingActionButton: AppSpeedDial(
           heroTag: 'catalogueDetailSpeedDial', catalogue: catalogue),
-      body: _CatalogueDetailView(categories: filteredCategories),
-    );
-  }
-}
-
-class _CatalogueDetailView extends ConsumerWidget {
-  final List<Category> categories;
-
-  const _CatalogueDetailView({required this.categories});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(itemProvider);
-    return ListView(
-      padding: const EdgeInsets.all(8.0),
-      children: [
-        const SizedBox(height: 16),
-        if (categories.isNotEmpty)
-          ...categories.map((category) {
-            final filteredItems =
-                items.where((item) => item.categoryId == category.id).toList();
-
-            return ExpansionTile(
-              title: Text(category.name),
-              children: [
-                if (filteredItems.isEmpty)
-                  const ListTile(title: Text('No items available'))
-                else
-                  ...filteredItems.map((item) => ListTile(
-                        title: Text(item.name),
-                      )),
-              ],
-            );
-          })
-        else
-          const Center(child: Text('No categories available')),
-      ],
+      body: CategoryDetailView(categories: filteredCategories),
     );
   }
 }
