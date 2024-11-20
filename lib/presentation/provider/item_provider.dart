@@ -4,7 +4,7 @@ import 'package:track_shop_app/entities/item.dart';
 import 'package:track_shop_app/presentation/provider/user_provider.dart';
 
 final itemProvider = StateNotifierProvider<ItemNotifier, List<Item>>(
-      (ref) {
+  (ref) {
     final userNotifier = ref.read(userProvider.notifier);
     return ItemNotifier(userNotifier);
   },

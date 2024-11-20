@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/presentation/provider/user_provider.dart';
@@ -11,7 +10,6 @@ final warehouseProvider =
   },
 );
 
-
 class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
   final UserNotifier userNotifier;
   WarehouseNotifier(this.userNotifier) : super([]) {
@@ -19,7 +17,8 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
   }
   Future<void> _listenToWarehouses() async {
     final userReference = await userNotifier.getDocumentReference();
-    userReference.collection('warehouse')
+    userReference
+        .collection('warehouse')
         .orderBy('date', descending: true)
         .withConverter(
           fromFirestore: Warehouse.fromFirestore,

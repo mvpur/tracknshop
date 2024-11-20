@@ -5,6 +5,7 @@ import 'package:track_shop_app/entities/category.dart';
 import 'package:track_shop_app/entities/item.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
+import 'package:track_shop_app/presentation/provider/item_provider.dart';
 import 'package:track_shop_app/presentation/widgets/speed_dial.dart';
 
 class CatalogueDetailScreen extends ConsumerWidget {
@@ -66,42 +67,32 @@ class CatalogueDetailScreen extends ConsumerWidget {
   }
 }
 
-class _CatalogueDetailView extends StatelessWidget {
+class _CatalogueDetailView extends ConsumerWidget {
   final List<Category> categories;
 
   const _CatalogueDetailView({required this.categories});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final items = ref.watch(itemProvider);
     return ListView(
       padding: const EdgeInsets.all(8.0),
       children: [
         const SizedBox(height: 16),
         if (categories.isNotEmpty)
           ...categories.map((category) {
+            final filteredItems =
+                items.where((item) => item.categoryId == category.id).toList();
+
             return ExpansionTile(
               title: Text(category.name),
               children: [
-                FutureBuilder<List<Item>>(
-                  future: category.loadItems(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return const Center(child: Text('Error loading items'));
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const ListTile(title: Text('No items available'));
-                    } else {
-                      return Column(
-                        children: snapshot.data!.map((item) {
-                          return ListTile(
-                            title: Text(item.name),
-                          );
-                        }).toList(),
-                      );
-                    }
-                  },
-                ),
+                if (filteredItems.isEmpty)
+                  const ListTile(title: Text('No items available'))
+                else
+                  ...filteredItems.map((item) => ListTile(
+                        title: Text(item.name),
+                      )),
               ],
             );
           })
