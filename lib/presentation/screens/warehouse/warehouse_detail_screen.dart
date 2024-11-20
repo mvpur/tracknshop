@@ -104,7 +104,7 @@ class _WarehouseDetailView extends ConsumerWidget {
                 ),
               ],
             );
-          }).toList()
+          })
         else
           const Center(child: Text('No categories available')),
       ],

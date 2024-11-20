@@ -2,6 +2,8 @@ import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_detail_screen.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/new_catalogue_screen.dart';
 import 'package:track_shop_app/presentation/screens/settings/settings_screen.dart';
+import 'package:track_shop_app/presentation/screens/user/login_screen.dart';
+import 'package:track_shop_app/presentation/screens/user/register_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/new_warehouse_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_screen.dart';
 import 'package:track_shop_app/presentation/widgets/bottom_navbar_scaffold.dart';
@@ -9,8 +11,18 @@ import 'package:track_shop_app/presentation/screens/warehouse/warehouse_screen.d
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/warehouse',
+  initialLocation: '/login_screen',
   routes: [
+    GoRoute(
+      path: '/login_screen',
+      name: LoginScreen.name,
+      builder: (context, state) => LoginScreen(),
+    ),
+    GoRoute(
+      path: '/register_screen',
+      name: RegisterScreen.name,
+      builder: (context, state) => RegisterScreen(),
+    ),
     GoRoute(
       path: '/warehouse-details/:warehouseId',
       name: WarehouseDetailScreen.name,

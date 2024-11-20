@@ -9,10 +9,10 @@ final catalogueProvider =
 
 class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
   final FirebaseFirestore db;
-
   CatalogueNotifier(this.db) : super([]) {
     _listenToCatalogues();
   }
+
   void _listenToCatalogues() {
     db
         .collection('catalogue')

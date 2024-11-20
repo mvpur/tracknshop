@@ -104,7 +104,7 @@ class _CatalogueDetailView extends StatelessWidget {
                 ),
               ],
             );
-          }).toList()
+          })
         else
           const Center(child: Text('No categories available')),
       ],
