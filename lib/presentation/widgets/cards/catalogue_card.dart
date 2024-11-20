@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:track_shop_app/entities/warehouse.dart';
+import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
+import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 
-class WarehouseItem extends ConsumerWidget {
-  const WarehouseItem({
+class CatalogueCard extends ConsumerWidget {
+  const CatalogueCard({
     super.key,
-    required this.warehouse,
+    required this.catalogue,
     this.onTap,
     required this.backgroundColor,
   });
 
-  final Warehouse warehouse;
+  final Catalogue catalogue;
   final Function? onTap;
   final Color backgroundColor;
 
@@ -23,13 +23,13 @@ class WarehouseItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String formattedDate =
-        DateFormat('dd/MM/yyyy').format(warehouse.date);
+        DateFormat('dd/MM/yyyy').format(catalogue.date);
 
     return Card(
       color: backgroundColor,
       child: ListTile(
-        leading: Icon(getIcon(warehouse.icon)),
-        title: Text(warehouse.name.toString()),
+        leading: Icon(getIcon(catalogue.icon)),
+        title: Text(catalogue.name.toString()),
         subtitle: Text('Date: $formattedDate'),
         onTap: () => onTap?.call(),
         trailing: IconButton(
@@ -41,7 +41,7 @@ class WarehouseItem extends ConsumerWidget {
                 return AlertDialog(
                   title: const Text('Delete'),
                   content: const Text(
-                      'Are you sure you want to delete this warehouse?'),
+                      'Are you sure you want to delete this catalogue?'),
                   actions: [
                     TextButton(
                       onPressed: () {
@@ -52,8 +52,8 @@ class WarehouseItem extends ConsumerWidget {
                     FilledButton(
                       onPressed: () {
                         ref
-                            .read(warehouseProvider.notifier)
-                            .deleteWarehouse(warehouse.id);
+                            .read(catalogueProvider.notifier)
+                            .deleteCatalogue(catalogue.id);
                         Navigator.of(context).pop();
                       },
                       child: const Text('Delete'),

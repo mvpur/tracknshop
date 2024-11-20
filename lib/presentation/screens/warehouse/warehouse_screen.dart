@@ -4,7 +4,7 @@ import 'package:track_shop_app/core/data/colors_datasourse.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/new_warehouse_screen.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_screen.dart';
-import 'package:track_shop_app/presentation/widgets/items/warehouse_item.dart';
+import 'package:track_shop_app/presentation/widgets/cards/warehouse_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
 
@@ -57,7 +57,7 @@ class _WarehousesView extends StatelessWidget {
       itemBuilder: (context, index) {
         final warehouse = warehouses[index];
         final itemColor = getColor(index, context);
-        return WarehouseItem(
+        return WarehouseCard(
           warehouse: warehouse,
           onTap: () => _goToWarehouseDetails(context, warehouse),
           backgroundColor: itemColor,

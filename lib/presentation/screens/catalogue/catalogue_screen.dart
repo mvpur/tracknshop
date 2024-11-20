@@ -4,7 +4,7 @@ import 'package:track_shop_app/core/data/colors_datasourse.dart';
 import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/new_catalogue_screen.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_detail_screen.dart';
-import 'package:track_shop_app/presentation/widgets/items/catalogue_item.dart';
+import 'package:track_shop_app/presentation/widgets/cards/catalogue_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 
@@ -63,7 +63,7 @@ class _CataloguesView extends StatelessWidget {
       itemBuilder: (context, index) {
         final catalogue = catalogues[index];
         final itemColor = getColor(index, context);
-        return CatalogueItem(
+        return CatalogueCard(
           catalogue: catalogue,
           onTap: () => _goToCatalogueDetails(context, catalogue),
           backgroundColor: itemColor,

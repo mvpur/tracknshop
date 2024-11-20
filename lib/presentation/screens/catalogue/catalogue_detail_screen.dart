@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/entities/category.dart';
-import 'package:track_shop_app/entities/item.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
 import 'package:track_shop_app/presentation/provider/item_provider.dart';
