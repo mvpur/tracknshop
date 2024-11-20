@@ -2,21 +2,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/category.dart';
 import 'package:track_shop_app/entities/item.dart';
+import 'package:track_shop_app/presentation/provider/user_provider.dart';
 
 final categoryProvider =
     StateNotifierProvider<CategoryNotifier, List<Category>>(
-  (ref) => CategoryNotifier(FirebaseFirestore.instance),
+  (ref) {
+        final userNotifier = ref.read(userProvider.notifier);
+return CategoryNotifier(userNotifier);
+},
 );
 
-class CategoryNotifier extends StateNotifier<List<Category>> {
-  final FirebaseFirestore db;
 
-  CategoryNotifier(this.db) : super([]) {
+class CategoryNotifier extends StateNotifier<List<Category>> {
+  final UserNotifier userNotifier;
+
+  CategoryNotifier(this.userNotifier) : super([]) {
     _listenToCategories();
   }
 
-  void _listenToCategories() {
-    db
+  Future<void> _listenToCategories() async {
+    final userReference = await userNotifier.getDocumentReference();
+    userReference
         .collection('category')
         .orderBy('name')
         .withConverter(
@@ -30,7 +36,8 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
   }
 
   Future<void> addCategory(Category category) async {
-    final doc = db.collection('category').doc();
+    final userReference = await userNotifier.getDocumentReference();
+    final doc = userReference.collection('category').doc();
     try {
       await doc.set(category.toFirestore());
     } catch (e) {
@@ -39,8 +46,9 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
   }
 
   Future<void> deleteCategory(String id) async {
+    final userReference = await userNotifier.getDocumentReference();
     try {
-      await db.collection('category').doc(id).delete();
+      await userReference.collection('category').doc(id).delete();
     } catch (e) {
       print('Error deleting category: $e');
     }
@@ -48,7 +56,8 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
 
   Future<List<Category>> getCategoriesForCatalogue(String catalogueId) async {
     try {
-      final categoriesSnapshot = await db
+      final userReference = await userNotifier.getDocumentReference();
+      final categoriesSnapshot = await userReference
           .collection('category')
           .where('catalogue_id', isEqualTo: catalogueId)
           .get();
@@ -65,7 +74,8 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
 
   Future<List<Item>> getItemsForCategory(String categoryId) async {
     try {
-      final itemsSnapshot = await db
+      final userReference = await userNotifier.getDocumentReference();
+      final itemsSnapshot = await userReference
           .collection('item')
           .where('category_id', isEqualTo: categoryId)
           .get();
@@ -82,7 +92,8 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
 
   Future<List<Category>> getCategoriesForWarehouse(String warehouseId) async {
     try {
-      final categoriesSnapshot = await db
+      final userReference = await userNotifier.getDocumentReference();
+      final categoriesSnapshot = await userReference
           .collection('category')
           .where('warehouse_id', isEqualTo: warehouseId)
           .get();
@@ -99,7 +110,8 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
 
   Future<List<Item>> getItemsForWarehouse(String warehouseId) async {
     try {
-      final itemsSnapshot = await db
+      final userReference = await userNotifier.getDocumentReference();
+      final itemsSnapshot = await userReference
           .collection('item')
           .where('warehouse_id', isEqualTo: warehouseId)
           .get();

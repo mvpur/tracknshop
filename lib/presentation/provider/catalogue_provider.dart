@@ -1,20 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/catalogue.dart';
+import 'package:track_shop_app/presentation/provider/user_provider.dart';
 
 final catalogueProvider =
     StateNotifierProvider<CatalogueNotifier, List<Catalogue>>(
-  (ref) => CatalogueNotifier(FirebaseFirestore.instance),
+  (ref)  {
+    final userNotifier = ref.read(userProvider.notifier);
+    return CatalogueNotifier(userNotifier);
+  },
 );
 
+
 class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
-  final FirebaseFirestore db;
-  CatalogueNotifier(this.db) : super([]) {
+  final UserNotifier userNotifier;
+  CatalogueNotifier(this.userNotifier) : super([]) {
     _listenToCatalogues();
   }
 
-  void _listenToCatalogues() {
-    db
+  Future<void> _listenToCatalogues() async {
+    final userReference = await userNotifier.getDocumentReference();
+    userReference
         .collection('catalogue')
         .orderBy('date', descending: true)
         .withConverter(
@@ -34,7 +40,8 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
   }
 
   Future<void> addCatalogue(Catalogue catalogue) async {
-    final doc = db.collection('catalogue').doc();
+    final userReference = await userNotifier.getDocumentReference();
+    final doc = userReference.collection('catalogue').doc();
     try {
       await doc.set(catalogue.toFirestore());
     } catch (e) {
@@ -43,8 +50,9 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
   }
 
   Future<void> deleteCatalogue(String id) async {
+    final userReference = await userNotifier.getDocumentReference();
     try {
-      await db.collection('catalogue').doc(id).delete();
+      await userReference.collection('catalogue').doc(id).delete();
     } catch (e) {
       print(e);
     }

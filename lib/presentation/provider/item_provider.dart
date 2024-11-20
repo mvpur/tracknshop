@@ -1,27 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/item.dart';
+import 'package:track_shop_app/presentation/provider/user_provider.dart';
 
 final itemProvider = StateNotifierProvider<ItemNotifier, List<Item>>(
-  (ref) => ItemNotifier(FirebaseFirestore.instance),
+      (ref) {
+    final userNotifier = ref.read(userProvider.notifier);
+    return ItemNotifier(userNotifier);
+  },
 );
 
 class ItemNotifier extends StateNotifier<List<Item>> {
-  final FirebaseFirestore db;
-
-  ItemNotifier(this.db) : super([]) {
+  final UserNotifier userNotifier;
+  ItemNotifier(this.userNotifier) : super([]) {
     _listenToItems();
   }
 
-  void _listenToItems() {
-    db.collection('item').snapshots().listen((snapshot) {
+  Future<void> _listenToItems() async {
+    final userReference = await userNotifier.getDocumentReference();
+    userReference.collection('item').snapshots().listen((snapshot) {
       state =
           snapshot.docs.map((doc) => Item.fromFirestore(doc, null)).toList();
     });
   }
 
   Future<void> addItem(Item item) async {
-    final doc = db.collection('item').doc();
+    final userReference = await userNotifier.getDocumentReference();
+    final doc = userReference.collection('item').doc();
     try {
       await doc.set(item.toFirestore());
     } catch (e) {
@@ -31,7 +36,8 @@ class ItemNotifier extends StateNotifier<List<Item>> {
 
   Future<void> deleteItem(String id) async {
     try {
-      await db.collection('item').doc(id).delete();
+      final userReference = await userNotifier.getDocumentReference();
+      await userReference.collection('item').doc(id).delete();
     } catch (e) {
       print('Error deleting item: $e');
     }
@@ -39,7 +45,8 @@ class ItemNotifier extends StateNotifier<List<Item>> {
 
   Future<List<Item>> getItemsForCategory(String categoryId) async {
     try {
-      final itemsSnapshot = await db
+      final userReference = await userNotifier.getDocumentReference();
+      final itemsSnapshot = await userReference
           .collection('item')
           .where('category_id', isEqualTo: categoryId)
           .get();

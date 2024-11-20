@@ -1,21 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
+import 'package:track_shop_app/presentation/provider/user_provider.dart';
 
 final warehouseProvider =
     StateNotifierProvider<WarehouseNotifier, List<Warehouse>>(
-  (ref) => WarehouseNotifier(FirebaseFirestore.instance),
+  (ref) {
+    final userNotifier = ref.read(userProvider.notifier);
+    return WarehouseNotifier(userNotifier);
+  },
 );
 
-class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
-  final FirebaseFirestore db;
 
-  WarehouseNotifier(this.db) : super([]) {
+class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
+  final UserNotifier userNotifier;
+  WarehouseNotifier(this.userNotifier) : super([]) {
     _listenToWarehouses();
   }
-  void _listenToWarehouses() {
-    db
-        .collection('warehouse')
+  Future<void> _listenToWarehouses() async {
+    final userReference = await userNotifier.getDocumentReference();
+    userReference.collection('warehouse')
         .orderBy('date', descending: true)
         .withConverter(
           fromFirestore: Warehouse.fromFirestore,
@@ -34,7 +38,8 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
   }
 
   Future<void> addWarehouse(Warehouse warehouse) async {
-    final doc = db.collection('warehouse').doc();
+    final userReference = await userNotifier.getDocumentReference();
+    final doc = userReference.collection('warehouse').doc();
     try {
       await doc.set(warehouse.toFirestore());
     } catch (e) {
@@ -43,8 +48,9 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
   }
 
   Future<void> deleteWarehouse(String id) async {
+    final userReference = await userNotifier.getDocumentReference();
     try {
-      await db.collection('warehouse').doc(id).delete();
+      await userReference.collection('warehouse').doc(id).delete();
     } catch (e) {
       print(e);
     }
