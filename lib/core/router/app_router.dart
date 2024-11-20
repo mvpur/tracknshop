@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_detail_screen.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/new_catalogue_screen.dart';
@@ -11,7 +12,7 @@ import 'package:track_shop_app/presentation/screens/warehouse/warehouse_screen.d
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/login_screen',
+  initialLocation: FirebaseAuth.instance.currentUser != null ? '/warehouse':'/login_screen',
   routes: [
     GoRoute(
       path: '/login_screen',
