@@ -14,25 +14,20 @@ class UserNotifier extends StateNotifier<List<User>> {
   final FirebaseFirestore db;
   UserNotifier(this.db) : super([]);
 
-  Future<void> register(String emailAddress, String password) async {
-    try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+  Future<User?> register(String fullName, String emailAddress, String password) async {
+    final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailAddress,
         password: password
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
+    );
 
+    await credential.user?.updateDisplayName(fullName);
+
+    await credential.user?.reload();
+  logout();
+    return credential.user;
   }
 
-  Future<User?> login(String emailAddress, String password) async {
+  Future<User?> login(String emailAddress, String password) async  {
     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailAddress,
         password: password
@@ -43,7 +38,6 @@ class UserNotifier extends StateNotifier<List<User>> {
 
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
-    DocumentReference doc = await getDocumentReference();
   }
 
   Future<DocumentReference<Map<String, dynamic>>> getDocumentReference() async {

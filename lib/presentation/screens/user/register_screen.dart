@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:track_shop_app/presentation/provider/user_provider.dart';
 import 'package:track_shop_app/presentation/screens/user/login_screen.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   static const String name = 'register_screen';
 
   final TextEditingController nameController = TextEditingController();
@@ -12,42 +15,64 @@ class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
   @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Register')),
+      appBar: AppBar(title: const Text('Register')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              controller: widget.nameController,
+              decoration: const InputDecoration(labelText: 'Name'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              controller: widget.emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
-              controller: passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              controller: widget.passwordController,
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Lógica para registrar
+                try {
+                  final userProviderNotifier = ref.read(userProvider.notifier);
+                  final user = userProviderNotifier.register(widget.nameController.text,widget.emailController.text, widget.passwordController.text);
+                  if(user !=null){
+                    context.goNamed(LoginScreen.name);
+                  }
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'weak-password') {
+                    print('The password provided is too weak.');
+                  } else if (e.code == 'email-already-in-use') {
+                    print('The account already exists for that email.');
+                  }
+                } catch (e) {
+                  print(e);
+                }
+                print('Name: ${widget.nameController.text}');
+                print('Email: ${widget.emailController.text}');
+                print('Password: ${widget.passwordController.text}');
               },
-              child: Text('Register'),
+              child: const Text('Register'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextButton(
               onPressed: () {
                 context.goNamed(LoginScreen.name);
               },
-              child: Text('Ya tienes cuenta? Inicia sesión'),
+              child: const Text('¿Ya tienes cuenta? Inicia sesión'),
             ),
           ],
         ),
