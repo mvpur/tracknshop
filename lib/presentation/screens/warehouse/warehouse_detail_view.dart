@@ -29,16 +29,20 @@ class WarehouseDetailView extends ConsumerWidget {
                 .toList();
 
             return ExpansionTile(
-              title: InkWell(
-                onTap: () =>
-                    _assignCatalogue(context, catalogues, category, ref),
-                child: Text(
-                  category.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+              title: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () =>
+                        _assignCatalogue(context, catalogues, category, ref),
+                    child: Text(
+                      category.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
               children: [
                 if (filteredItems.isEmpty)
@@ -48,17 +52,22 @@ class WarehouseDetailView extends ConsumerWidget {
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            InkWell(
+                            GestureDetector(
                               onTap: () {
                                 showEditItemDialog(context, ref, item);
                               },
                               child: Text(item.name),
                             ),
-                            Text(
-                              item.amount != null && item.typeAmount != null
-                                  ? '${item.amount} - ${item.typeAmount?.toUpperCase()}'
-                                  : '—',
-                              style: TextStyle(color: Colors.grey.shade600),
+                            GestureDetector(
+                              onTap: () {
+                                showEditItemDialog(context, ref, item);
+                              },
+                              child: Text(
+                                item.amount != null && item.typeAmount != null
+                                    ? '${item.amount} - ${item.typeAmount?.toUpperCase()}'
+                                    : '—',
+                                style: TextStyle(color: Colors.grey.shade600),
+                              ),
                             ),
                             IconButton(
                               onPressed: () async {

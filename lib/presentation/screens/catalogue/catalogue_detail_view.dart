@@ -27,16 +27,20 @@ class CategoryDetailView extends ConsumerWidget {
                 items.where((item) => item.categoryId == category.id).toList();
 
             return ExpansionTile(
-              title: GestureDetector(
-                onTap: () =>
-                    _assignWarehouse(context, warehouses, category, ref),
-                child: Text(
-                  category.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+              title: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () =>
+                        _assignWarehouse(context, warehouses, category, ref),
+                    child: Text(
+                      category.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
               children: [
                 if (filteredItems.isEmpty)
