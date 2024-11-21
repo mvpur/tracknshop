@@ -48,10 +48,9 @@ class _CataloguesView extends StatelessWidget {
 
   Color getColor(int index, BuildContext context) {
     final List<Color> colors = colorsList;
-    return colors[index % colors.length];
+    return colors.reversed.toList()[index % colors.length];
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     if (catalogues.isEmpty) {

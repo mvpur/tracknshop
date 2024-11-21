@@ -20,51 +20,55 @@ class SettingsScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+      appBar: AppBar(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Text(
               user.displayName ?? 'No Name Provided',
               style: const TextStyle(
-                fontSize: 28,
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
+          ),
+          const SizedBox(height: 8),
+          Center(
+            child: Text(
               user.email ?? 'No Email Provided',
               style: const TextStyle(
-                fontSize: 22,
+                fontSize: 18,
                 color: Colors.grey,
               ),
             ),
-            const SizedBox(height: 32),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.notifications),
-                title: const Text('Reminders'),
-                onTap: () {
-                  context.pushNamed(ReminderScreen.name);
-                },
-              ),
+          ),
+          const SizedBox(height: 32),
+          Card(
+            color: Colors.lightGreen.shade200,
+            child: ListTile(
+              leading: const Icon(Icons.notifications),
+              title: const Text('Reminders'),
+              subtitle: const Text('See all your reminders!'),
+              onTap: () {
+                context.pushNamed(ReminderScreen.name);
+              },
             ),
-            const SizedBox(height: 16),
-            Card(
-              child: ListTile(
-                leading: const Icon(Icons.exit_to_app),
-                title: const Text('Logout'),
-                onTap: () async {
-                  await FirebaseAuth.instance.signOut();
-                  context.goNamed(
-                    LoginScreen.name,
-                  );
-                },
-              ),
+          ),
+          const SizedBox(height: 16),
+          Card(
+            color: Colors.red.shade200,
+            child: ListTile(
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Logout'),
+              subtitle: const Text('Goodbye!'),
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                context.goNamed(LoginScreen.name);
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
