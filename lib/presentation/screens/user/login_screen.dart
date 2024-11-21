@@ -9,7 +9,7 @@ import 'package:track_shop_app/presentation/screens/warehouse/warehouse_screen.d
 class LoginScreen extends ConsumerStatefulWidget {
   static const String name = 'login_screen';
 
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
