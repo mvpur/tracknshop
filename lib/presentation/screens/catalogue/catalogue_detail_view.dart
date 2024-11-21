@@ -6,6 +6,8 @@ import 'package:track_shop_app/presentation/provider/item_provider.dart';
 import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
 import 'package:track_shop_app/presentation/widgets/category_utils/assign_warehouse_dialog.dart';
 import 'package:track_shop_app/presentation/widgets/category_utils/item_with_checkbox.dart';
+import 'package:track_shop_app/presentation/screens/category/delete_category_confirmation.dart';
+import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 
 class CategoryDetailView extends ConsumerWidget {
   final List<Category> categories;
@@ -40,6 +42,20 @@ class CategoryDetailView extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () async {
+                      final confirm = await _showDeleteCategoryConfirmation(
+                          context, category, ref);
+                      if (confirm == true) {
+                        // Llamar a la función para eliminar la categoría
+                        ref
+                            .read(catalogueProvider.notifier)
+                            .deleteCategory(category.id);
+                      }
+                    },
+                  ),
                 ],
               ),
               children: [
@@ -56,6 +72,21 @@ class CategoryDetailView extends ConsumerWidget {
           const Center(child: Text('No categories available')),
       ],
     );
+  }
+
+  Future<bool> _showDeleteCategoryConfirmation(
+      BuildContext context, Category category, WidgetRef ref) async {
+    return await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return DeleteCategoryConfirmationDialog(
+              onCancel: () => Navigator.of(context).pop(false),
+              onConfirm:
+                  () {}, // Puede quedar vacío, ya que la eliminación la manejamos en el callback
+            );
+          },
+        ) ??
+        false;
   }
 
   void _assignWarehouse(BuildContext context, List<Warehouse> warehouses,

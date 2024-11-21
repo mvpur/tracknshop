@@ -22,7 +22,7 @@ class Catalogue {
   factory Catalogue.fromMap(Map<String, dynamic> data) {
     return Catalogue(
       id: data['id'] ?? '',
-      icon: data['icon'] ?? 0, 
+      icon: data['icon'] ?? 0,
       name: data['name'] ?? 'Sin Nombre',
       date: (data['date'] != null && data['date'] is Timestamp)
           ? (data['date'] as Timestamp).toDate()
@@ -56,5 +56,18 @@ class Catalogue {
     return categoriesSnapshot.docs.map((doc) {
       return Category.fromFirestore(doc, null);
     }).toList();
+  }
+
+  Catalogue copyWith({
+    String? name,
+    int? icon,
+    DateTime? date,
+  }) {
+    return Catalogue(
+      id: id,
+      icon: icon ?? this.icon,
+      name: name ?? this.name,
+      date: date ?? this.date,
+    );
   }
 }

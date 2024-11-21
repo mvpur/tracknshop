@@ -4,6 +4,7 @@ import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/entities/category.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/item_provider.dart';
+import 'package:track_shop_app/presentation/screens/category/delete_category_confirmation.dart';
 import 'package:track_shop_app/presentation/screens/item/delete_item_confirmation.dart';
 import 'package:track_shop_app/presentation/screens/item/edit_item_dialog.dart';
 import 'package:track_shop_app/presentation/widgets/category_utils/assign_catalogue_dialog.dart';
@@ -41,6 +42,19 @@ class WarehouseDetailView extends ConsumerWidget {
                         fontSize: 18,
                       ),
                     ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () async {
+                      final confirm = await _showDeleteCategoryConfirmation(
+                          context, category, ref);
+                      if (confirm == true) {
+                        ref
+                            .read(catalogueProvider.notifier)
+                            .deleteCategory(category.id);
+                      }
+                    },
                   ),
                 ],
               ),
@@ -95,6 +109,20 @@ class WarehouseDetailView extends ConsumerWidget {
           const Center(child: Text('No categories available')),
       ],
     );
+  }
+
+  Future<bool> _showDeleteCategoryConfirmation(
+      BuildContext context, Category category, WidgetRef ref) async {
+    return await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return DeleteCategoryConfirmationDialog(
+              onCancel: () => Navigator.of(context).pop(false),
+              onConfirm: () {},
+            );
+          },
+        ) ??
+        false;
   }
 
   void _assignCatalogue(BuildContext context, List<Catalogue> catalogues,
