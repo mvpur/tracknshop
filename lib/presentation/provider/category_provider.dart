@@ -167,7 +167,7 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
             id: category.id,
             name: category.name,
             warehouseId: category.warehouseId,
-            catalogueId: catalogueId, // Asignamos el catálogo
+            catalogueId: catalogueId, 
           );
         }
         return category;

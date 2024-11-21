@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
-import 'package:track_shop_app/presentation/screens/category/category_catalogue_detail.dart';
+import 'package:track_shop_app/presentation/screens/catalogue/catalogue_detail_view.dart';
 import 'package:track_shop_app/presentation/widgets/navbar_and_speeddial/speed_dial.dart';
 
 class CatalogueDetailScreen extends ConsumerWidget {

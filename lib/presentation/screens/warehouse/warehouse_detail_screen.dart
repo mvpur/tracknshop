@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
-import 'package:track_shop_app/presentation/screens/category/category_warehouse_detail.dart';
+import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_view.dart';
 import 'package:track_shop_app/presentation/widgets/navbar_and_speeddial/speed_dial.dart';
 
 class WarehouseDetailScreen extends ConsumerWidget {
