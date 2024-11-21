@@ -23,8 +23,10 @@ class WarehouseDetailView extends ConsumerWidget {
         const SizedBox(height: 16),
         if (categories.isNotEmpty)
           ...categories.map((category) {
-            final filteredItems =
-                items.where((item) => item.categoryId == category.id).toList();
+            final filteredItems = items
+                .where((item) =>
+                    item.categoryId == category.id && item.isCompleted == true)
+                .toList();
 
             return ExpansionTile(
               title: GestureDetector(

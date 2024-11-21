@@ -4,12 +4,11 @@ import 'package:track_shop_app/presentation/provider/user_provider.dart';
 
 final catalogueProvider =
     StateNotifierProvider<CatalogueNotifier, List<Catalogue>>(
-  (ref)  {
+  (ref) {
     final userNotifier = ref.read(userProvider.notifier);
     return CatalogueNotifier(userNotifier);
   },
 );
-
 
 class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
   final UserNotifier userNotifier;
@@ -30,7 +29,7 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
         .listen((snapshot) async {
       final catalogues = await Future.wait(snapshot.docs.map((doc) async {
         final catalogue = doc.data();
-        await catalogue.loadCategories(); 
+        await catalogue.loadCategories();
         return catalogue;
       }).toList());
 
