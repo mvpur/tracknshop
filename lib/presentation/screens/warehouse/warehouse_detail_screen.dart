@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:track_shop_app/core/router/app_router.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
-import 'package:track_shop_app/helper/reminder_helper.dart';
 import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_view.dart';
@@ -58,11 +55,12 @@ class WarehouseDetailScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.notification_add_rounded),
             onPressed: () => showDialog(
-              context: context,
-              builder: (BuildContext context){
-                return NewReminderDialog(title: warehouse.name,);
-              }
-            ),
+                context: context,
+                builder: (BuildContext context) {
+                  return NewReminderDialog(
+                    title: warehouse.name,
+                  );
+                }),
           ),
         ],
       ),

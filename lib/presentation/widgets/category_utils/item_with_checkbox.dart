@@ -1,8 +1,11 @@
+// lib/presentation/screens/item/item_with_checkbox.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/item.dart';
 import 'package:track_shop_app/presentation/provider/item_provider.dart';
 import 'package:track_shop_app/presentation/screens/item/delete_item_confirmation.dart';
+import 'package:track_shop_app/presentation/screens/item/edit_item_dialog.dart';
 
 class ItemWithCheckbox extends ConsumerWidget {
   final Item item;
@@ -26,17 +29,29 @@ class ItemWithCheckbox extends ConsumerWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            item.name,
-            style: TextStyle(
-              decoration: isChecked ? TextDecoration.lineThrough : null,
+          GestureDetector(
+            onTap: () {
+              showEditItemDialog(
+                  context, ref, item); 
+            },
+            child: Text(
+              item.name,
+              style: TextStyle(
+                decoration: isChecked ? TextDecoration.lineThrough : null,
+              ),
             ),
           ),
-          Text(
-            item.amount != null && item.typeAmount != null
-                ? '${item.amount} - ${item.typeAmount?.toUpperCase()}'
-                : '—',
-            style: TextStyle(color: Colors.grey.shade600),
+          GestureDetector(
+            onTap: () {
+              showEditItemDialog(
+                  context, ref, item); 
+            },
+            child: Text(
+              item.amount != null && item.typeAmount != null
+                  ? '${item.amount} - ${item.typeAmount?.toUpperCase()}'
+                  : '—',
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
           ),
           IconButton(
             onPressed: () async {

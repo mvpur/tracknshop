@@ -5,6 +5,7 @@ import 'package:track_shop_app/entities/category.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/item_provider.dart';
 import 'package:track_shop_app/presentation/screens/item/delete_item_confirmation.dart';
+import 'package:track_shop_app/presentation/screens/item/edit_item_dialog.dart';
 import 'package:track_shop_app/presentation/widgets/category_utils/assign_catalogue_dialog.dart';
 
 class WarehouseDetailView extends ConsumerWidget {
@@ -24,11 +25,11 @@ class WarehouseDetailView extends ConsumerWidget {
           ...categories.map((category) {
             final filteredItems = items
                 .where((item) =>
-            (item.categoryId == category.id && item.isCompleted ))
+                    (item.categoryId == category.id && item.isCompleted))
                 .toList();
 
             return ExpansionTile(
-              title: GestureDetector(
+              title: InkWell(
                 onTap: () =>
                     _assignCatalogue(context, catalogues, category, ref),
                 child: Text(
@@ -47,7 +48,12 @@ class WarehouseDetailView extends ConsumerWidget {
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(item.name),
+                            InkWell(
+                              onTap: () {
+                                showEditItemDialog(context, ref, item);
+                              },
+                              child: Text(item.name),
+                            ),
                             Text(
                               item.amount != null && item.typeAmount != null
                                   ? '${item.amount} - ${item.typeAmount?.toUpperCase()}'

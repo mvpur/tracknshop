@@ -66,6 +66,35 @@ class ItemNotifier extends StateNotifier<List<Item>> {
     }
   }
 
+  Future<void> updateItem(String itemId, String newName, double newAmount,
+      String typeAmount) async {
+    try {
+      final userReference = await userNotifier.getDocumentReference();
+      final itemDoc = userReference.collection('item').doc(itemId);
+
+      await itemDoc.update({
+        'name': newName,
+        'amount': newAmount,
+      });
+
+      state = state.map((item) {
+        if (item.id == itemId) {
+          return Item(
+            id: item.id,
+            name: newName,
+            isCompleted: item.isCompleted,
+            categoryId: item.categoryId,
+            amount: newAmount,
+            typeAmount: typeAmount,
+          );
+        }
+        return item;
+      }).toList();
+    } catch (e) {
+      print('Error updating item: $e');
+    }
+  }
+
   Future<List<Item>> getItemsForCategory(String categoryId) async {
     try {
       final userReference = await userNotifier.getDocumentReference();

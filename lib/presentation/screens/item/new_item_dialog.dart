@@ -125,15 +125,13 @@ class NewItemDialog extends ConsumerWidget {
                       final String itemName = nameController.text.trim();
                       final double? amount =
                           double.tryParse(amountController.text.trim());
-                      if (itemName.isNotEmpty &&
-                          selectedCategoryId != null &&
-                          selectedTypeAmount != null &&
-                          amount != null) {
+                      if (itemName.isNotEmpty && selectedCategoryId != null) {
                         final newItem = Item(
                           id: '',
                           name: itemName,
                           catalogueId: catalogueId,
                           warehouseId: warehouseId,
+                          isCompleted: (warehouseId!.isNotEmpty ? true : false),
                           categoryId: selectedCategoryId,
                           amount: amount,
                           typeAmount: selectedTypeAmount!.name,
@@ -143,7 +141,7 @@ class NewItemDialog extends ConsumerWidget {
                       } else {
                         SnackbarUtil.showSnackbar(
                           context,
-                          'Please complete all fields.',
+                          'Please complete name and category!',
                           backgroundColor: Colors.red,
                         );
                       }
