@@ -51,32 +51,27 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
   Future<void> deleteCatalogue(String id) async {
     final userReference = await userNotifier.getDocumentReference();
     try {
-      await userReference.collection('catalogue').doc(id).delete();
-    } catch (e) {
-      print(e);
-    }
-  }
+      final categoriesQuery = await userReference
+          .collection('category')
+          .where('catalogue_id', isEqualTo: id)
+          .get();
 
-  Future<void> deleteCategory(String categoryId) async {
-    final userReference = await userNotifier.getDocumentReference();
-    try {
-      final categoryDoc =
-          await userReference.collection('category').doc(categoryId).get();
+      for (var categoryDoc in categoriesQuery.docs) {
+        final categoryData = categoryDoc.data();
 
-      if (!categoryDoc.exists) {
-        print('Category not found');
-        return;
+        if (categoryData['catalogue_id'] == null) {
+          // Eliminamos la categoría directamente desde CatalogueNotifier
+          await categoryDoc.reference.delete();
+        } else {
+          await categoryDoc.reference
+              .update({'catalogue_id': FieldValue.delete()});
+        }
       }
 
-      await userReference.collection('category').doc(categoryId).update({
-        'catalogue_id': FieldValue.delete(),
-      });
-
-      await userReference.collection('category').doc(categoryId).delete();
-
-      state = [for (var catalogue in state) catalogue.copyWith()];
+      // Eliminar el catalogue
+      await userReference.collection('catalogue').doc(id).delete();
     } catch (e) {
-      print(e);
+      print('Error deleting catalogue and its linked categories: $e');
     }
   }
 
@@ -87,7 +82,7 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
           userReference.collection('catalogue').doc(catalogueId);
       await catalogueDoc.update({'date': DateTime.now()});
     } catch (e) {
-      print('Error updating warehouse date: $e');
+      print('Error updating catalogue date: $e');
     }
   }
 }

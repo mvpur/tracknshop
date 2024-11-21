@@ -45,9 +45,18 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
   Future<void> deleteCategory(String id) async {
     final userReference = await userNotifier.getDocumentReference();
     try {
+      final itemsQuery = await userReference
+          .collection('item')
+          .where('category_id', isEqualTo: id)
+          .get();
+
+      for (var itemDoc in itemsQuery.docs) {
+        await itemDoc.reference.delete();
+      }
+
       await userReference.collection('category').doc(id).delete();
     } catch (e) {
-      print('Error deleting category: $e');
+      print('Error deleting category and its items: $e');
     }
   }
 
@@ -93,7 +102,7 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
             id: category.id,
             name: category.name,
             warehouseId: category.warehouseId,
-            catalogueId: catalogueId, 
+            catalogueId: catalogueId,
           );
         }
         return category;

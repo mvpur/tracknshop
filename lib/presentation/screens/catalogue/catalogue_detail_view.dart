@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/category.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
+import 'package:track_shop_app/presentation/provider/category_provider.dart';
 import 'package:track_shop_app/presentation/provider/item_provider.dart';
 import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
 import 'package:track_shop_app/presentation/widgets/utils/category_utils/assign_warehouse_dialog.dart';
 import 'package:track_shop_app/presentation/widgets/utils/category_utils/item_with_checkbox.dart';
 import 'package:track_shop_app/presentation/screens/category/delete_category_confirmation.dart';
-import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 
 class CategoryDetailView extends ConsumerWidget {
   final List<Category> categories;
@@ -50,7 +50,7 @@ class CategoryDetailView extends ConsumerWidget {
                           context, category, ref);
                       if (confirm == true) {
                         ref
-                            .read(catalogueProvider.notifier)
+                            .read(categoryProvider.notifier)
                             .deleteCategory(category.id);
                       }
                     },
@@ -80,8 +80,7 @@ class CategoryDetailView extends ConsumerWidget {
           builder: (context) {
             return DeleteCategoryConfirmationDialog(
               onCancel: () => Navigator.of(context).pop(false),
-              onConfirm:
-                  () {},
+              onConfirm: () {},
             );
           },
         ) ??

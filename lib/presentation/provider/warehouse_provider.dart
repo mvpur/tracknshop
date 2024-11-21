@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
 import 'package:track_shop_app/presentation/provider/user_provider.dart';
@@ -6,15 +7,17 @@ final warehouseProvider =
     StateNotifierProvider<WarehouseNotifier, List<Warehouse>>(
   (ref) {
     final userNotifier = ref.read(userProvider.notifier);
-    return WarehouseNotifier(userNotifier);
+    return WarehouseNotifier(userNotifier); // Sin usar ref aquí
   },
 );
 
 class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
   final UserNotifier userNotifier;
+
   WarehouseNotifier(this.userNotifier) : super([]) {
     _listenToWarehouses();
   }
+
   Future<void> _listenToWarehouses() async {
     final userReference = await userNotifier.getDocumentReference();
     userReference
@@ -49,9 +52,27 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
   Future<void> deleteWarehouse(String id) async {
     final userReference = await userNotifier.getDocumentReference();
     try {
+      final categoriesQuery = await userReference
+          .collection('category')
+          .where('warehouse_id', isEqualTo: id)
+          .get();
+
+      for (var categoryDoc in categoriesQuery.docs) {
+        final categoryData = categoryDoc.data();
+
+        if (categoryData['catalogue_id'] == null) {
+          // Eliminamos la categoría directamente desde WarehouseNotifier
+          await categoryDoc.reference.delete();
+        } else {
+          await categoryDoc.reference
+              .update({'warehouse_id': FieldValue.delete()});
+        }
+      }
+
+      // Eliminar el warehouse
       await userReference.collection('warehouse').doc(id).delete();
     } catch (e) {
-      print(e);
+      print('Error deleting warehouse and its linked categories: $e');
     }
   }
 
