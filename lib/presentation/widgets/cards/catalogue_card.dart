@@ -30,7 +30,7 @@ class CatalogueCard extends ConsumerWidget {
       child: ListTile(
         leading: Icon(getIcon(catalogue.icon)),
         title: Text(catalogue.name.toString()),
-        subtitle: Text('Date: $formattedDate'),
+        subtitle: Text(formattedDate),
         onTap: () => onTap?.call(),
         trailing: IconButton(
           icon: const Icon(Icons.delete),

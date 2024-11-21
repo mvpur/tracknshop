@@ -54,4 +54,15 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
       print(e);
     }
   }
+
+  Future<void> updateWarehouseDate(String warehouseId) async {
+    final userReference = await userNotifier.getDocumentReference();
+    try {
+      final warehouseDoc =
+          userReference.collection('warehouse').doc(warehouseId);
+      await warehouseDoc.update({'date': DateTime.now()});
+    } catch (e) {
+      print('Error updating warehouse date: $e');
+    }
+  }
 }

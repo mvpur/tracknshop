@@ -69,19 +69,25 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
       }
 
       await userReference.collection('category').doc(categoryId).update({
-        'catalogue_id':
-            FieldValue.delete(), 
+        'catalogue_id': FieldValue.delete(),
       });
 
       await userReference.collection('category').doc(categoryId).delete();
 
-      state = [
-        for (var catalogue in state)
-          catalogue
-              .copyWith() 
-      ];
+      state = [for (var catalogue in state) catalogue.copyWith()];
     } catch (e) {
       print(e);
+    }
+  }
+
+  void updateCatalogueDate(String catalogueId) async {
+    final userReference = await userNotifier.getDocumentReference();
+    try {
+      final catalogueDoc =
+          userReference.collection('catalogue').doc(catalogueId);
+      await catalogueDoc.update({'date': DateTime.now()});
+    } catch (e) {
+      print('Error updating warehouse date: $e');
     }
   }
 }

@@ -30,7 +30,7 @@ class WarehouseCard extends ConsumerWidget {
       child: ListTile(
         leading: Icon(getIcon(warehouse.icon)),
         title: Text(warehouse.name.toString()),
-        subtitle: Text('Date: $formattedDate'),
+        subtitle: Text(formattedDate),
         onTap: () => onTap?.call(),
         trailing: IconButton(
           icon: const Icon(Icons.delete),

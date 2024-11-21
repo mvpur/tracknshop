@@ -35,6 +35,11 @@ class CatalogueDetailScreen extends ConsumerWidget {
       );
     }
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (catalogue.date != DateTime.now()) {
+        ref.read(catalogueProvider.notifier).updateCatalogueDate(catalogue.id);
+      }
+    });
     final categories = ref.watch(categoryProvider);
 
     final filteredCategories = categories

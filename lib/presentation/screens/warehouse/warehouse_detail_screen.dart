@@ -7,7 +7,6 @@ import 'package:track_shop_app/presentation/screens/reminder/new_reminder_dialog
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_view.dart';
 import 'package:track_shop_app/presentation/widgets/navbar_and_speeddial/speed_dial.dart';
 
-
 class WarehouseDetailScreen extends ConsumerWidget {
   static const String name = 'warehouse_detail_screen';
 
@@ -35,6 +34,12 @@ class WarehouseDetailScreen extends ConsumerWidget {
         body: const Center(child: Text('Warehouse not found')),
       );
     }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (warehouse.date != DateTime.now()) {
+        ref.read(warehouseProvider.notifier).updateWarehouseDate(warehouse.id);
+      }
+    });
 
     final categories = ref.watch(categoryProvider);
 
