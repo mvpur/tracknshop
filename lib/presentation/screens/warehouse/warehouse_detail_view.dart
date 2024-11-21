@@ -7,7 +7,7 @@ import 'package:track_shop_app/presentation/provider/item_provider.dart';
 import 'package:track_shop_app/presentation/screens/category/delete_category_confirmation.dart';
 import 'package:track_shop_app/presentation/screens/item/delete_item_confirmation.dart';
 import 'package:track_shop_app/presentation/screens/item/edit_item_dialog.dart';
-import 'package:track_shop_app/presentation/widgets/category_utils/assign_catalogue_dialog.dart';
+import 'package:track_shop_app/presentation/widgets/utils/category_utils/assign_catalogue_dialog.dart';
 
 class WarehouseDetailView extends ConsumerWidget {
   final List<Category> categories;

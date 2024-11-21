@@ -55,6 +55,8 @@ class ItemNotifier extends StateNotifier<List<Item>> {
           return Item(
             id: item.id,
             name: item.name,
+            amount: item.amount,
+            typeAmount: item.typeAmount,
             isCompleted: isCompleted,
             categoryId: item.categoryId,
           );
@@ -94,5 +96,4 @@ class ItemNotifier extends StateNotifier<List<Item>> {
       print('Error updating item: $e');
     }
   }
-
 }

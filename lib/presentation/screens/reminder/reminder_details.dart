@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/entities/reminder.dart';
 import 'package:track_shop_app/presentation/provider/reminder_provider.dart';
 import 'package:track_shop_app/presentation/screens/reminder/new_reminder_dialog.dart';
-import 'package:track_shop_app/presentation/screens/reminder/reminder_screen.dart';
 
 class ReminderDetailScreen extends ConsumerStatefulWidget {
   static const String name = 'reminder_detail_screen';
