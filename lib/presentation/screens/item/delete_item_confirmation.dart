@@ -12,11 +12,11 @@ Future<bool?> showDeleteConfirmationDialog({
         content: Text('Are you sure you want to delete "$itemName"?'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(false), // Cancelar
+            onPressed: () => Navigator.of(context).pop(false), 
             child: const Text('Cancel'),
           ),
           ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(true), // Confirmar
+            onPressed: () => Navigator.of(context).pop(true), 
             child: const Text(
               'Delete',
             ),

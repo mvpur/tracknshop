@@ -1,5 +1,3 @@
-// lib/presentation/screens/item/item_with_checkbox.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/item.dart';
@@ -31,8 +29,7 @@ class ItemWithCheckbox extends ConsumerWidget {
         children: [
           GestureDetector(
             onTap: () {
-              showEditItemDialog(
-                  context, ref, item); 
+              showEditItemDialog(context, ref, item);
             },
             child: Text(
               item.name,
@@ -43,8 +40,7 @@ class ItemWithCheckbox extends ConsumerWidget {
           ),
           GestureDetector(
             onTap: () {
-              showEditItemDialog(
-                  context, ref, item); 
+              showEditItemDialog(context, ref, item);
             },
             child: Text(
               item.amount != null && item.typeAmount != null

@@ -14,16 +14,12 @@ class SettingsScreen extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Settings')),
-        body: const Center(child: Text('No user is logged in.')),
+      return const Scaffold(
+        body: Center(child: Text('No user is logged in.')),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

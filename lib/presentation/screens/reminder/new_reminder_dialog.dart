@@ -58,7 +58,7 @@ class _NewReminderDialogState extends ConsumerState<NewReminderDialog> {
               ),
               const SizedBox(height: 20),
               TextField(
-                controller: bodyController, // Controlador con valor inicial
+                controller: bodyController, 
                 decoration: const InputDecoration(
                   labelText: 'Description',
                   hintText: 'Reminder Description',
@@ -113,7 +113,6 @@ class _NewReminderDialogState extends ConsumerState<NewReminderDialog> {
     }
   }
 
-  // Seleccionar hora
   Future<void> _selectTime() async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,

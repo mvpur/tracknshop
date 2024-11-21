@@ -60,7 +60,6 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
   Future<void> deleteCategory(String categoryId) async {
     final userReference = await userNotifier.getDocumentReference();
     try {
-      // Buscar la categoría por su ID
       final categoryDoc =
           await userReference.collection('category').doc(categoryId).get();
 
@@ -69,20 +68,17 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
         return;
       }
 
-      // Eliminar el campo 'catalogue_id' de la categoría
       await userReference.collection('category').doc(categoryId).update({
         'catalogue_id':
-            FieldValue.delete(), // Elimina la referencia al catálogo
+            FieldValue.delete(), 
       });
 
-      // Eliminar el documento de la categoría de la base de datos
       await userReference.collection('category').doc(categoryId).delete();
 
-      // Actualizar el estado local de los catálogos
       state = [
         for (var catalogue in state)
           catalogue
-              .copyWith() // Si no necesitas hacer cambios en las categorías, esto puede quedar así.
+              .copyWith() 
       ];
     } catch (e) {
       print(e);

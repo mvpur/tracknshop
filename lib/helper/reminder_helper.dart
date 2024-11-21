@@ -3,7 +3,6 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:track_shop_app/core/router/app_router.dart';
 import 'package:track_shop_app/entities/reminder.dart';
-import 'package:track_shop_app/presentation/provider/user_provider.dart';
 
 class ReminderHelper {
   static final _notification = FlutterLocalNotificationsPlugin();

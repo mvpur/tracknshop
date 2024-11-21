@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:track_shop_app/core/router/app_router.dart';
 import 'package:track_shop_app/entities/reminder.dart';
 import 'package:track_shop_app/presentation/provider/reminder_provider.dart';
 import 'package:track_shop_app/presentation/screens/reminder/new_reminder_dialog.dart';
 import 'package:track_shop_app/presentation/screens/reminder/reminder_screen.dart';
-import 'package:track_shop_app/presentation/screens/warehouse/warehouse_screen.dart';
 
 class ReminderDetailScreen extends ConsumerStatefulWidget {
   static const String name = 'reminder_detail_screen';
   final String reminderId;
 
-  const ReminderDetailScreen({required this.reminderId, Key? key}) : super(key: key);
+  const ReminderDetailScreen({required this.reminderId, super.key});
 
   @override
   _ReminderDetailScreenState createState() => _ReminderDetailScreenState();
 }
 
 class _ReminderDetailScreenState extends ConsumerState<ReminderDetailScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,14 +24,16 @@ class _ReminderDetailScreenState extends ConsumerState<ReminderDetailScreen> {
         title: const Text('Reminder Details'),
       ),
       body: FutureBuilder<Reminder?>(
-        future: ref.read(reminderProvider.notifier).getReminder(widget.reminderId),
+        future:
+            ref.read(reminderProvider.notifier).getReminder(widget.reminderId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error al cargar el recordatorio: ${snapshot.error}'));
+            return Center(
+                child: Text('Error loading reminder: ${snapshot.error}'));
           } else if (!snapshot.hasData) {
-            return const Center(child: Text('No se encontró el recordatorio'));
+            return const Center(child: Text('No reminders have been found.'));
           } else {
             final reminder = snapshot.data!;
             return Padding(
@@ -44,21 +43,22 @@ class _ReminderDetailScreenState extends ConsumerState<ReminderDetailScreen> {
                 children: [
                   Text(
                     reminder.title,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
-                  Text(
+                  const Text(
                     'Description:',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     reminder.description,
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 16),
-                  Text(
+                  const Text(
                     'Date:',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     reminder.dateTimeToRemind.toString(),
@@ -70,25 +70,31 @@ class _ReminderDetailScreenState extends ConsumerState<ReminderDetailScreen> {
                     children: [
                       ElevatedButton(
                         onPressed: () async {
-                          await deleteReminder(widget.reminderId);
-                          context.goNamed(ReminderScreen.name);
+                          final confirmed = await showConfirmationDialog(
+                              context,
+                              'Delete Reminder',
+                              'Are you sure you want to delete this reminder?');
+                          if (confirmed) {
+                            await deleteReminder(widget.reminderId);
+                            Navigator.pop(context);
+                          }
                         },
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                        child: const Text('Delete', style: TextStyle(color: Colors.white)),
+                        child: const Text(
+                          'Delete',
+                        ),
                       ),
                       ElevatedButton(
-                        onPressed: ()async {
+                        onPressed: () async {
                           await showDialog(
                               context: context,
-                              builder: (BuildContext context){
-                                return NewReminderDialog(title: reminder.title,
+                              builder: (BuildContext context) {
+                                return NewReminderDialog(
+                                    title: reminder.title,
                                     description: reminder.description);
-                              }
-                          );
+                              });
                           context.goNamed(ReminderScreen.name);
                         },
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                        child: const Text('Remind again', style: TextStyle(color: Colors.white)),
+                        child: const Text('Remind again'),
                       ),
                     ],
                   ),
@@ -107,5 +113,29 @@ class _ReminderDetailScreenState extends ConsumerState<ReminderDetailScreen> {
     } catch (e) {
       print('Error deleting reminder: $e');
     }
+  }
+
+  Future<bool> showConfirmationDialog(
+      BuildContext context, String title, String content) async {
+    return await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(title),
+              content: Text(content),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text('Confirm'),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false;
   }
 }

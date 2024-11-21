@@ -49,7 +49,6 @@ class CategoryDetailView extends ConsumerWidget {
                       final confirm = await _showDeleteCategoryConfirmation(
                           context, category, ref);
                       if (confirm == true) {
-                        // Llamar a la función para eliminar la categoría
                         ref
                             .read(catalogueProvider.notifier)
                             .deleteCategory(category.id);
@@ -82,7 +81,7 @@ class CategoryDetailView extends ConsumerWidget {
             return DeleteCategoryConfirmationDialog(
               onCancel: () => Navigator.of(context).pop(false),
               onConfirm:
-                  () {}, // Puede quedar vacío, ya que la eliminación la manejamos en el callback
+                  () {},
             );
           },
         ) ??

@@ -95,20 +95,4 @@ class ItemNotifier extends StateNotifier<List<Item>> {
     }
   }
 
-  Future<List<Item>> getItemsForCategory(String categoryId) async {
-    try {
-      final userReference = await userNotifier.getDocumentReference();
-      final itemsSnapshot = await userReference
-          .collection('item')
-          .where('category_id', isEqualTo: categoryId)
-          .get();
-
-      return itemsSnapshot.docs.map((doc) {
-        return Item.fromFirestore(doc, null);
-      }).toList();
-    } catch (e) {
-      print('Error fetching items: $e');
-      return [];
-    }
-  }
 }

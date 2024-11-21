@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/presentation/provider/user_provider.dart';
 
 import '../../entities/reminder.dart';
