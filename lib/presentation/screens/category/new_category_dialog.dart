@@ -50,7 +50,21 @@ class NewCategoryDialog extends ConsumerWidget {
                   ElevatedButton(
                     onPressed: () {
                       final String categoryName = nameController.text.trim();
-                      if (categoryName.isNotEmpty) {
+
+                      // Validación: Verifica si el nombre está vacío o supera los 20 caracteres
+                      if (categoryName.isEmpty) {
+                        SnackbarUtil.showSnackbar(
+                          context,
+                          'Name can\'t be empty!',
+                          backgroundColor: Colors.red,
+                        );
+                      } else if (categoryName.length > 20) {
+                        SnackbarUtil.showSnackbar(
+                          context,
+                          'Please provide a valid name (max 20 characters)!',
+                          backgroundColor: Colors.red,
+                        );
+                      } else {
                         final newCategory = Category(
                           id: '',
                           name: categoryName,
@@ -61,14 +75,6 @@ class NewCategoryDialog extends ConsumerWidget {
                             .read(categoryProvider.notifier)
                             .addCategory(newCategory);
                         Navigator.of(context).pop();
-                      } else {
-                        if (categoryName.isEmpty) {
-                          SnackbarUtil.showSnackbar(
-                            context,
-                            'Name cant be empty!',
-                            backgroundColor: Colors.red,
-                          );
-                        }
                       }
                     },
                     child: const Text('Confirm'),

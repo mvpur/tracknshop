@@ -37,6 +37,7 @@ class _NewCatalogueScreenState extends ConsumerState<NewCatalogueScreen> {
           children: [
             TextField(
               controller: _nameController,
+              maxLength: 30,
               decoration: const InputDecoration(
                 labelText: 'Name of new catalogue',
                 hintText: 'Shopping List',
@@ -67,15 +68,11 @@ class _NewCatalogueScreenState extends ConsumerState<NewCatalogueScreen> {
                       });
                     },
                     child: Container(
-                      decoration: BoxDecoration(
-                        color: selectedIcon == icon
-                            ? Colors.blueAccent.withOpacity(0.2)
-                            : Colors.transparent,
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         icon,
-                        color: selectedIcon == icon ? Colors.blue : Colors.grey,
                       ),
                     ),
                   );
@@ -92,7 +89,8 @@ class _NewCatalogueScreenState extends ConsumerState<NewCatalogueScreen> {
                 ),
                 FilledButton(
                   onPressed: () async {
-                    if (_nameController.text.isEmpty || selectedIcon == null) {
+                    final catalogueName = _nameController.text.trim();
+                    if (catalogueName.isEmpty || selectedIcon == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content:
@@ -102,8 +100,17 @@ class _NewCatalogueScreenState extends ConsumerState<NewCatalogueScreen> {
                       return;
                     }
 
+                    if (catalogueName.length > 30) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Name can\'t exceed 30 characters'),
+                        ),
+                      );
+                      return;
+                    }
+
                     final newCatalogue = Catalogue(
-                      name: _nameController.text.trim(),
+                      name: catalogueName,
                       date: DateTime.now(),
                       icon: selectedIcon!.codePoint,
                       id: '',

@@ -125,7 +125,19 @@ class NewItemDialog extends ConsumerWidget {
                       final String itemName = nameController.text.trim();
                       final double? amount =
                           double.tryParse(amountController.text.trim());
-                      if (itemName.isNotEmpty && selectedCategoryId != null) {
+                      if (itemName.isEmpty || itemName.length > 20) {
+                        SnackbarUtil.showSnackbar(
+                          context,
+                          'Please provide a valid name (max 20 characters)!',
+                          backgroundColor: Colors.red,
+                        );
+                      } else if (selectedCategoryId == null) {
+                        SnackbarUtil.showSnackbar(
+                          context,
+                          'Please select a category!',
+                          backgroundColor: Colors.red,
+                        );
+                      } else {
                         final newItem = Item(
                           id: '',
                           name: itemName,
@@ -134,16 +146,10 @@ class NewItemDialog extends ConsumerWidget {
                           isCompleted: (warehouseId!.isNotEmpty ? true : false),
                           categoryId: selectedCategoryId,
                           amount: amount,
-                          typeAmount: selectedTypeAmount!.name,
+                          typeAmount: selectedTypeAmount?.name,
                         );
                         ref.read(itemProvider.notifier).addItem(newItem);
                         Navigator.of(context).pop();
-                      } else {
-                        SnackbarUtil.showSnackbar(
-                          context,
-                          'Please complete name and category!',
-                          backgroundColor: Colors.red,
-                        );
                       }
                     },
                     child: const Text('Confirm'),

@@ -37,6 +37,7 @@ class _NewWarehouseScreenState extends ConsumerState<NewWarehouseScreen> {
           children: [
             TextField(
               controller: _nameController,
+              maxLength: 30, 
               decoration: const InputDecoration(
                 labelText: 'Name of new warehouse',
                 hintText: 'My Fridge',
@@ -92,7 +93,8 @@ class _NewWarehouseScreenState extends ConsumerState<NewWarehouseScreen> {
                 ),
                 FilledButton(
                   onPressed: () async {
-                    if (_nameController.text.isEmpty || selectedIcon == null) {
+                    final warehouseName = _nameController.text.trim();
+                    if (warehouseName.isEmpty || selectedIcon == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content:
@@ -102,8 +104,17 @@ class _NewWarehouseScreenState extends ConsumerState<NewWarehouseScreen> {
                       return;
                     }
 
+                    if (warehouseName.length > 30) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Name can\'t exceed 30 characters'),
+                        ),
+                      );
+                      return;
+                    }
+
                     final newWarehouse = Warehouse(
-                      name: _nameController.text.trim(),
+                      name: warehouseName,
                       date: DateTime.now(),
                       icon: selectedIcon!.codePoint,
                       id: '',
