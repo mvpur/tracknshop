@@ -60,7 +60,7 @@ class WarehouseDetailScreen extends ConsumerWidget {
       ),
       floatingActionButton: AppSpeedDial(
           heroTag: 'warehouseDetailSpeedDial', warehouse: warehouse),
-      body: CategoryListView(categories: filteredCategories),
+      body: WarehouseDetailView(categories: filteredCategories),
     );
   }
 }

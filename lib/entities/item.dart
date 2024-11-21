@@ -7,6 +7,8 @@ class Item {
   final String? categoryId;
   final String? catalogueId;
   final String? warehouseId;
+  final double? amount;
+  final String? typeAmount;
 
   Item({
     required this.id,
@@ -15,6 +17,8 @@ class Item {
     this.categoryId,
     this.catalogueId,
     this.warehouseId,
+    this.amount,
+    this.typeAmount,
   });
 
   factory Item.fromFirestore(
@@ -30,8 +34,10 @@ class Item {
       id: data['id'] ?? '',
       name: data['name'] ?? 'Sin Nombre',
       categoryId: data['category_id'] ?? 'No category',
-      catalogueId: data['catalogue_id'] ?? 'Sin catalogue',
+      catalogueId: data['catalogue_id'] ?? 'No catalogue',
       warehouseId: data['warehouse_id'] ?? 'No warehouse',
+      amount: (data['amount'] as num?)?.toDouble(),
+      typeAmount: data['type_amount'] ?? 'No type amount',
     );
   }
 
@@ -42,6 +48,8 @@ class Item {
       'category_id': categoryId,
       'catalogue_id': catalogueId,
       'warehouse_id': warehouseId,
+      'amount': amount,
+      'type_amount': typeAmount,
     };
   }
 }

@@ -6,10 +6,10 @@ import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/item_provider.dart';
 import 'package:track_shop_app/presentation/widgets/category_utils/assign_catalogue_dialog.dart';
 
-class CategoryListView extends ConsumerWidget {
+class WarehouseDetailView extends ConsumerWidget {
   final List<Category> categories;
 
-  const CategoryListView({super.key, required this.categories});
+  const WarehouseDetailView({super.key, required this.categories});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,7 +36,18 @@ class CategoryListView extends ConsumerWidget {
                   const ListTile(title: Text('No items available'))
                 else
                   ...filteredItems.map((item) => ListTile(
-                        title: Text(item.name),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(item.name),
+                            Text(
+                              item.amount != null && item.typeAmount != null
+                                  ? '${item.amount}-${item.typeAmount}'
+                                  : '—',
+                              style: TextStyle(color: Colors.grey.shade600),
+                            ),
+                          ],
+                        ),
                       )),
               ],
             );

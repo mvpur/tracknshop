@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:track_shop_app/entities/item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:track_shop_app/entities/type_amount.dart';
 import 'package:track_shop_app/presentation/provider/item_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
 import 'package:track_shop_app/presentation/widgets/utils/snackbar.dart';
@@ -11,14 +12,14 @@ class NewItemDialog extends ConsumerWidget {
   final String? warehouseId;
   final String? catalogueId;
   final String? category;
-  static const String name = 'new_item';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController nameController = TextEditingController();
+    final TextEditingController amountController = TextEditingController();
+
     final categories = ref.watch(categoryProvider);
 
-    // Filtrar las categorías asociadas o sin vinculación.
     final filteredCategories = categories.where((category) {
       final isLinkedToCurrent =
           (warehouseId != null && category.warehouseId == warehouseId) ||
@@ -30,6 +31,8 @@ class NewItemDialog extends ConsumerWidget {
     }).toList();
 
     String? selectedCategoryId;
+    TypeAmount? selectedTypeAmount;
+
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       child: ConstrainedBox(
@@ -53,9 +56,35 @@ class NewItemDialog extends ConsumerWidget {
                   prefixIcon: Icon(Icons.interests_outlined),
                 ),
               ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Amount',
+                  hintText: 'e.g., 2.5',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.numbers),
+                ),
+              ),
+              const SizedBox(height: 20),
+              DropdownButtonFormField<TypeAmount>(
+                value: selectedTypeAmount,
+                decoration: const InputDecoration(
+                  labelText: 'Select Unit',
+                  border: OutlineInputBorder(),
+                ),
+                items: TypeAmount.values.map((type) {
+                  return DropdownMenuItem(
+                    value: type,
+                    child: Text(type.name.toUpperCase()),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  selectedTypeAmount = value;
+                },
+              ),
               const SizedBox(height: 20.0),
-
-              // Mostrar Dropdown o mensaje según las categorías disponibles.
               filteredCategories.isNotEmpty
                   ? DropdownButtonFormField<String>(
                       value: selectedCategoryId,
@@ -84,8 +113,6 @@ class NewItemDialog extends ConsumerWidget {
                       ),
                     ),
               const SizedBox(height: 20.0),
-
-              // Botones de acción.
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -96,19 +123,27 @@ class NewItemDialog extends ConsumerWidget {
                   ElevatedButton(
                     onPressed: () {
                       final String itemName = nameController.text.trim();
-                      if (itemName.isNotEmpty && selectedCategoryId != null) {
+                      final double? amount =
+                          double.tryParse(amountController.text.trim());
+                      if (itemName.isNotEmpty &&
+                          selectedCategoryId != null &&
+                          selectedTypeAmount != null &&
+                          amount != null) {
                         final newItem = Item(
-                            id: '',
-                            name: itemName,
-                            catalogueId: catalogueId,
-                            warehouseId: warehouseId,
-                            categoryId: selectedCategoryId);
+                          id: '',
+                          name: itemName,
+                          catalogueId: catalogueId,
+                          warehouseId: warehouseId,
+                          categoryId: selectedCategoryId,
+                          amount: amount,
+                          typeAmount: selectedTypeAmount!.name,
+                        );
                         ref.read(itemProvider.notifier).addItem(newItem);
                         Navigator.of(context).pop();
                       } else {
                         SnackbarUtil.showSnackbar(
                           context,
-                          'Please enter a name and select a category.',
+                          'Please complete all fields.',
                           backgroundColor: Colors.red,
                         );
                       }
