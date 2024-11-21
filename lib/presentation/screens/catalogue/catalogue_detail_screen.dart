@@ -4,7 +4,7 @@ import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_detail_view.dart';
-import 'package:track_shop_app/presentation/screens/notifier/new_notification_dialog.dart';
+import 'package:track_shop_app/presentation/screens/reminder/new_reminder_dialog.dart';
 import 'package:track_shop_app/presentation/widgets/navbar_and_speeddial/speed_dial.dart';
 
 class CatalogueDetailScreen extends ConsumerWidget {

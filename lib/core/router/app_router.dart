@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_detail_screen.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/new_catalogue_screen.dart';
-import 'package:track_shop_app/presentation/screens/notifier/new_notification_dialog.dart';
+import 'package:track_shop_app/presentation/screens/reminder/reminder_details.dart';
+import 'package:track_shop_app/presentation/screens/reminder/reminder_screen.dart';
 import 'package:track_shop_app/presentation/screens/settings/settings_screen.dart';
 import 'package:track_shop_app/presentation/screens/user/login_screen.dart';
 import 'package:track_shop_app/presentation/screens/user/register_screen.dart';
@@ -37,6 +38,20 @@ final GoRouter appRouter = GoRouter(
       name: NewWarehouseScreen.name,
       builder: (context, state) => const NewWarehouseScreen(),
     ),
+    GoRoute(
+      path: '/reminder_screen',
+      name: ReminderScreen.name,
+      builder: (context, state) => const ReminderScreen(),
+    ),
+    GoRoute(
+      path: '/reminder_details/:reminderId',
+      name: ReminderDetailScreen.name,
+      builder: (context, state) {
+        final reminderId = state.pathParameters['reminderId'];
+        return ReminderDetailScreen(reminderId: reminderId!);
+      },
+    )
+,
     GoRoute(
       path: '/catalogue-details/:catalogueId',
       name: CatalogueDetailScreen.name,

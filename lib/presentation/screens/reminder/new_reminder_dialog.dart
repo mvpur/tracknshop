@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:track_shop_app/entities/reminder.dart';
+import 'package:track_shop_app/presentation/provider/reminder_provider.dart';
 import 'package:track_shop_app/presentation/widgets/utils/snackbar.dart';
-import 'package:track_shop_app/helper/notification_helper.dart';
+import 'package:track_shop_app/helper/reminder_helper.dart';
 
 class NewReminderDialog extends ConsumerStatefulWidget {
   static const String name = 'new_reminder_dialog';
 
-  // Parámetro title que se pasa al constructor
   final String title;
+  final String? description;
 
-  const NewReminderDialog({super.key, required this.title});
+  const NewReminderDialog({super.key, required this.title, this.description});
 
   @override
   _NewReminderDialogState createState() => _NewReminderDialogState();
 }
 
 class _NewReminderDialogState extends ConsumerState<NewReminderDialog> {
-  final TextEditingController bodyController = TextEditingController();
+  final TextEditingController bodyController;
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
+
+  _NewReminderDialogState() : bodyController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.description != null) {
+      bodyController.text = widget.description!;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +48,6 @@ class _NewReminderDialogState extends ConsumerState<NewReminderDialog> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
-
               Text(
                 widget.title,
                 style: const TextStyle(
@@ -46,9 +57,8 @@ class _NewReminderDialogState extends ConsumerState<NewReminderDialog> {
                 ),
               ),
               const SizedBox(height: 20),
-
               TextField(
-                controller: bodyController,
+                controller: bodyController, // Controlador con valor inicial
                 decoration: const InputDecoration(
                   labelText: 'Description',
                   hintText: 'Reminder Description',
@@ -57,21 +67,17 @@ class _NewReminderDialogState extends ConsumerState<NewReminderDialog> {
                 maxLines: 3,
               ),
               const SizedBox(height: 20),
-
               ListTile(
                 leading: const Icon(Icons.calendar_today),
                 title: Text("Date: ${selectedDate.toLocal().toString().split(' ')[0]}"),
                 onTap: _selectDate,
               ),
-
               ListTile(
                 leading: const Icon(Icons.access_time),
                 title: Text("Time: ${selectedTime.format(context)}"),
                 onTap: _selectTime,
               ),
-
               const SizedBox(height: 20),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -148,16 +154,16 @@ class _NewReminderDialogState extends ConsumerState<NewReminderDialog> {
       return;
     }
 
-    await NotificationHelper.scheduledNotification(
-      title: widget.title, // Usamos el título pasado como parámetro
+    final Reminder newReminder = await ReminderHelper.scheduledNotification(
+      title: widget.title,
       body: bodyController.text,
       scheduledDate: reminderDateTime,
     );
 
-    // Guardar el recordatorio en la base de datos (puedes agregar los datos de warehouse/catalogue)
-    // Aquí debes agregar la lógica para guardar el recordatorio en la base de datos de acuerdo a tu modelo
+    final reminder = ref.watch(reminderProvider.notifier);
 
-    // Después de guardar, puedes navegar a la pantalla correspondiente
+    reminder.addReminder(newReminder);
+
     Navigator.of(context).pop();
   }
 }

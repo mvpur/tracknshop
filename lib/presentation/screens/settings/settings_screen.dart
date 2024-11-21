@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:track_shop_app/presentation/screens/reminder/reminder_screen.dart';
 import 'package:track_shop_app/presentation/screens/user/login_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -49,9 +50,7 @@ class SettingsScreen extends StatelessWidget {
                 leading: const Icon(Icons.notifications),
                 title: const Text('Reminders'),
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Opening Reminders...')),
-                  );
+                  context.pushNamed(ReminderScreen.name);
                 },
               ),
             ),

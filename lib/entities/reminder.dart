@@ -26,7 +26,8 @@ class Reminder {
 
       return Reminder(id: data?['id'], 
       title: data?['title'],
-      description: data?['description'], 
-      dateTimeToRemind: data?['dateTimeToRemind']);
+      description: data?['description'],
+      dateTimeToRemind: (data?['dateTimeToRemind'] as Timestamp).toDate(),);
   }
+
 }
