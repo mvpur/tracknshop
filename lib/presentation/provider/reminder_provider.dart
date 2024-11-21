@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/presentation/provider/user_provider.dart';
@@ -23,7 +24,7 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
   Future<void> _listenToReminders() async {
     final userReference = await userNotifier.getDocumentReference();
     userReference
-        .collection(collection)
+        .collection(collection).where('dateTimeToRemind',isGreaterThan: DateTime.now() )
         .orderBy('dateTimeToRemind', descending: true)
         .withConverter(
       fromFirestore: Reminder.fromFirestore,
