@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:track_shop_app/core/router/app_router.dart';
 import 'package:track_shop_app/entities/warehouse.dart';
+import 'package:track_shop_app/helper/notification_helper.dart';
 import 'package:track_shop_app/presentation/provider/warehouse_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
 import 'package:track_shop_app/presentation/screens/warehouse/warehouse_detail_view.dart';
 import 'package:track_shop_app/presentation/widgets/navbar_and_speeddial/speed_dial.dart';
+
+import '../notifier/new_notification_dialog.dart';
 
 class WarehouseDetailScreen extends ConsumerWidget {
   static const String name = 'warehouse_detail_screen';
@@ -52,9 +57,12 @@ class WarehouseDetailScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.notification_add_rounded),
-            onPressed: () {
-              // Acción al presionar el ícono de alarma
-            },
+            onPressed: () => showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return NewReminderDialog(title: warehouse.name,);
+              }
+            ),
           ),
         ],
       ),

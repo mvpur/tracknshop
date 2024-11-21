@@ -4,6 +4,7 @@ import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/category_provider.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_detail_view.dart';
+import 'package:track_shop_app/presentation/screens/notifier/new_notification_dialog.dart';
 import 'package:track_shop_app/presentation/widgets/navbar_and_speeddial/speed_dial.dart';
 
 class CatalogueDetailScreen extends ConsumerWidget {
@@ -52,9 +53,12 @@ class CatalogueDetailScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.notification_add_rounded),
-            onPressed: () {
-              // Acción al presionar el ícono de alarma
-            },
+            onPressed: ()  => showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return NewReminderDialog(title: catalogue.name);
+              }
+            ),
           ),
         ],
       ),

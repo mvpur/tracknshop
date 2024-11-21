@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/catalogue_detail_screen.dart';
 import 'package:track_shop_app/presentation/screens/catalogue/new_catalogue_screen.dart';
+import 'package:track_shop_app/presentation/screens/notifier/new_notification_dialog.dart';
 import 'package:track_shop_app/presentation/screens/settings/settings_screen.dart';
 import 'package:track_shop_app/presentation/screens/user/login_screen.dart';
 import 'package:track_shop_app/presentation/screens/user/register_screen.dart';
