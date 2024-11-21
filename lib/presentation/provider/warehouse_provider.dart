@@ -7,7 +7,7 @@ final warehouseProvider =
     StateNotifierProvider<WarehouseNotifier, List<Warehouse>>(
   (ref) {
     final userNotifier = ref.read(userProvider.notifier);
-    return WarehouseNotifier(userNotifier); // Sin usar ref aquí
+    return WarehouseNotifier(userNotifier);
   },
 );
 
@@ -61,7 +61,6 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
         final categoryData = categoryDoc.data();
 
         if (categoryData['catalogue_id'] == null) {
-          // Eliminamos la categoría directamente desde WarehouseNotifier
           await categoryDoc.reference.delete();
         } else {
           await categoryDoc.reference
@@ -69,7 +68,6 @@ class WarehouseNotifier extends StateNotifier<List<Warehouse>> {
         }
       }
 
-      // Eliminar el warehouse
       await userReference.collection('warehouse').doc(id).delete();
     } catch (e) {
       print('Error deleting warehouse and its linked categories: $e');

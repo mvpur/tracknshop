@@ -36,8 +36,6 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
     });
   }
 
-
-
   Future<Reminder> getReminder(String reminderId) async {
     final userReference = await userNotifier.getDocumentReference();
 
@@ -53,8 +51,6 @@ class ReminderProvider extends StateNotifier<List<Reminder>> {
       rethrow;
     }
   }
-
-
 
   Future<void> addReminder(Reminder reminder) async {
     final userReference = await userNotifier.getDocumentReference();

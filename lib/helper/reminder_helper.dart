@@ -17,8 +17,6 @@ class ReminderHelper {
         await onSelectNotification(payload);
       },
     );
-
-
     tz.initializeTimeZones();
   }
 

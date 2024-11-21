@@ -51,7 +51,6 @@ class NewCategoryDialog extends ConsumerWidget {
                     onPressed: () {
                       final String categoryName = nameController.text.trim();
 
-                      // Validación: Verifica si el nombre está vacío o supera los 20 caracteres
                       if (categoryName.isEmpty) {
                         SnackbarUtil.showSnackbar(
                           context,

@@ -48,8 +48,8 @@ class _ReminderListView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.notifications_off_outlined, // Ícono relacionado con recordatorios
+            const Icon(
+              Icons.notifications_off_outlined,
               size: 80,
               color: Colors.grey,
             ),

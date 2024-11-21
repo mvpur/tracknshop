@@ -60,7 +60,6 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
         final categoryData = categoryDoc.data();
 
         if (categoryData['catalogue_id'] == null) {
-          // Eliminamos la categoría directamente desde CatalogueNotifier
           await categoryDoc.reference.delete();
         } else {
           await categoryDoc.reference
@@ -68,7 +67,6 @@ class CatalogueNotifier extends StateNotifier<List<Catalogue>> {
         }
       }
 
-      // Eliminar el catalogue
       await userReference.collection('catalogue').doc(id).delete();
     } catch (e) {
       print('Error deleting catalogue and its linked categories: $e');
