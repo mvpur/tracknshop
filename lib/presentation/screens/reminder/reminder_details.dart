@@ -92,7 +92,7 @@ class _ReminderDetailScreenState extends ConsumerState<ReminderDetailScreen> {
                                     title: reminder.title,
                                     description: reminder.description);
                               });
-                          context.goNamed(ReminderScreen.name);
+                          Navigator.pop(context);
                         },
                         child: const Text('Remind again'),
                       ),
