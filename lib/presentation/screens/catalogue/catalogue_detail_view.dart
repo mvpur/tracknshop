@@ -30,7 +30,13 @@ class CategoryDetailView extends ConsumerWidget {
               title: GestureDetector(
                 onTap: () =>
                     _assignWarehouse(context, warehouses, category, ref),
-                child: Text(category.name),
+                child: Text(
+                  category.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
               ),
               children: [
                 if (filteredItems.isEmpty)

@@ -4,6 +4,7 @@ import 'package:track_shop_app/entities/catalogue.dart';
 import 'package:track_shop_app/entities/category.dart';
 import 'package:track_shop_app/presentation/provider/catalogue_provider.dart';
 import 'package:track_shop_app/presentation/provider/item_provider.dart';
+import 'package:track_shop_app/presentation/screens/item/delete_item_confirmation.dart';
 import 'package:track_shop_app/presentation/widgets/category_utils/assign_catalogue_dialog.dart';
 
 class WarehouseDetailView extends ConsumerWidget {
@@ -29,7 +30,13 @@ class WarehouseDetailView extends ConsumerWidget {
               title: GestureDetector(
                 onTap: () =>
                     _assignCatalogue(context, catalogues, category, ref),
-                child: Text(category.name),
+                child: Text(
+                  category.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
               ),
               children: [
                 if (filteredItems.isEmpty)
@@ -42,9 +49,25 @@ class WarehouseDetailView extends ConsumerWidget {
                             Text(item.name),
                             Text(
                               item.amount != null && item.typeAmount != null
-                                  ? '${item.amount}-${item.typeAmount}'
+                                  ? '${item.amount} - ${item.typeAmount?.toUpperCase()}'
                                   : '—',
                               style: TextStyle(color: Colors.grey.shade600),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                final confirm =
+                                    await showDeleteConfirmationDialog(
+                                  context: context,
+                                  itemName: item.name,
+                                );
+
+                                if (confirm == true) {
+                                  await ref
+                                      .read(itemProvider.notifier)
+                                      .deleteItem(item.id);
+                                }
+                              },
+                              icon: const Icon(Icons.close),
                             ),
                           ],
                         ),
