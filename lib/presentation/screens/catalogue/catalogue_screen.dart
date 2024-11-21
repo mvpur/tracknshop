@@ -53,8 +53,36 @@ class _CataloguesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (catalogues.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+    if (catalogues.isEmpty) {return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.book_outlined, // Ícono relacionado con catálogos
+            size: 80,
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            "No catalogues available",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[700],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            "It looks like you haven't added any catalogues yet.\nTap the '+' button to create your first catalogue.",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[600],
+            ),
+          ),
+        ],
+      ),
+    );
     }
 
     return ListView.builder(

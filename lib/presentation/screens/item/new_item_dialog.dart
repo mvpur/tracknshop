@@ -143,7 +143,7 @@ class NewItemDialog extends ConsumerWidget {
                           name: itemName,
                           catalogueId: catalogueId,
                           warehouseId: warehouseId,
-                          isCompleted: (warehouseId!.isNotEmpty ? true : false),
+                          isCompleted: (warehouseId != null ? true : false),
                           categoryId: selectedCategoryId,
                           amount: amount,
                           typeAmount: selectedTypeAmount?.name,
