@@ -53,7 +53,7 @@ class _WarehousesView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.warehouse_outlined,
               size: 80,
               color: Colors.grey,

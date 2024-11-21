@@ -57,7 +57,7 @@ class _CataloguesView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.book_outlined, // Ícono relacionado con catálogos
             size: 80,
             color: Colors.grey,
