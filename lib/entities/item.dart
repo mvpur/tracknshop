@@ -33,6 +33,7 @@ class Item {
     return Item(
       id: data['id'] ?? '',
       name: data['name'] ?? 'Sin Nombre',
+      isCompleted: data['isCompleted']??false,
       categoryId: data['category_id'] ?? 'No category',
       catalogueId: data['catalogue_id'] ?? 'No catalogue',
       warehouseId: data['warehouse_id'] ?? 'No warehouse',

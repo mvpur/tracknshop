@@ -16,7 +16,6 @@ class WarehouseDetailView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(itemProvider);
     final catalogues = ref.watch(catalogueProvider);
-
     return ListView(
       padding: const EdgeInsets.all(8.0),
       children: [
@@ -25,7 +24,7 @@ class WarehouseDetailView extends ConsumerWidget {
           ...categories.map((category) {
             final filteredItems = items
                 .where((item) =>
-                    item.categoryId == category.id && item.isCompleted == true)
+            (item.categoryId == category.id && item.isCompleted ))
                 .toList();
 
             return ExpansionTile(
